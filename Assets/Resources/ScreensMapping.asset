@@ -12,5 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 605925733f125174b847034c6498078f, type: 3}
   m_Name: ScreensMapping
   m_EditorClassIdentifier: 
-  ScreenSettings: []
+  ScreenSettings:
+  - Screen: {fileID: 4628813412278727890, guid: 0f44f84db4f410442b330c7d755d89a4,
+      type: 3}
+    IsCached: 1
+  - Screen: {fileID: 5635636718021224907, guid: a26fc2cd3a07ab24da81aacbb26cb3db,
+      type: 3}
+    IsCached: 1
+  - Screen: {fileID: 2222654369423859815, guid: 29c1dec12f5a1d44ca42622238d0d97c,
+      type: 3}
+    IsCached: 1
   PopupSettings: []

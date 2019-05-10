@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c1d67c65211b334c822f2584737ce0d, type: 3}
+  m_Name: BallSettings
+  m_EditorClassIdentifier: 
+  StartPosition: {x: 0, y: 0, z: 0}
+  JumpHeight: 2.5
+  MoveSpeed: 10
+  SmoothSpeed: 0.05
+  VelocityCap: 5
+  XPositionCap: 7
+  InCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: -0.007972363
+      outSlope: -0.007972363
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.36131784
+    - serializedVersion: 3
+      time: 0.818762
+      value: 0.38679034
+      inSlope: 1.4995685
+      outSlope: 1.4995685
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.34577417
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 5.320761
+      outSlope: 5.320761
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.11495003
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  OutCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
