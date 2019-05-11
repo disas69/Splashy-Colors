@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4302248642647682152}
   - component: {fileID: 4975467171964763618}
+  - component: {fileID: 3496012031492384908}
   - component: {fileID: 2974711426903883444}
   - component: {fileID: 3102459218837997469}
   - component: {fileID: 4591625732642021659}
@@ -55,6 +56,23 @@ MonoBehaviour:
     Name: StateChange
   _audioSignal:
     Name: PlayAudio
+--- !u!114 &3496012031492384908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6168671672151754128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35ccf08386f1d0648a375ddd59bff341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _activateOnAwake: 1
+  _settings:
+    ObjectPrefab: {fileID: 8979767733167163132, guid: 6854662f4b91c5540b529936fcbfd55f,
+      type: 3}
+    PoolCapacity: 10
 --- !u!33 &2974711426903883444
 MeshFilter:
   m_ObjectHideFlags: 0

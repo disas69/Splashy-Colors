@@ -11,6 +11,7 @@ namespace Game.Objects
         public float SmoothSpeed;
         public float VelocityCap;
         public float XPositionCap;
+        public float BlotDeactivationTime;
         public AnimationCurve InCurve;
         public AnimationCurve OutCurve;
     }

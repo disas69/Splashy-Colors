@@ -16,6 +16,8 @@ namespace Game.Objects
         [SerializeField] private MeshRenderer _renderer;
         [SerializeField] private Signal _audioSignal;
 
+        public Transform BaseTransform => _renderer.gameObject.transform;
+
         private void Awake()
         {
             _animator = GetComponent<Animator>();
@@ -34,6 +36,18 @@ namespace Game.Objects
         {
             _color = color;
             _renderer.sharedMaterial = ColorSettings.GetMaterial(color);
+        }
+
+        public override void Deactivate()
+        {
+            var blots = GetComponentsInChildren<Blot>();
+
+            for (var i = 0; i < blots.Length; i++)
+            {
+                blots[i].Deactivate();
+            }
+            
+            base.Deactivate();
         }
     }
 }

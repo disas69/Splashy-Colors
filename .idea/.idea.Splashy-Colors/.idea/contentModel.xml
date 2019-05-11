@@ -234,6 +234,7 @@
             <e p="Objects" t="Include">
               <e p="Ball.cs" t="Include" />
               <e p="BallSettings.cs" t="Include" />
+              <e p="Blot.cs" t="Include" />
               <e p="Platform.cs" t="Include" />
               <e p="PlatformSettings.cs" t="Include" />
             </e>

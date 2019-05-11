@@ -28,14 +28,13 @@ namespace Game.Path
 
         public override void Deactivate()
         {
-            base.Deactivate();
-
             for (var i = 0; i < _platforms.Count; i++)
             {
                 _platforms[i].Deactivate();
             }
             
             _platforms.Clear();
+            base.Deactivate();
         }
 
         public void Setup(bool isFirstPlatform, string color)

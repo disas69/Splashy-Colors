@@ -28,7 +28,6 @@ namespace Game.Path
             }
 
             _lines.Clear();
-            _linesSpawner.Flush();
 
             for (var i = 0; i < _pathSettings.VisibleLinesCount; i++)
             {

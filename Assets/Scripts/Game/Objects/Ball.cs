@@ -1,15 +1,17 @@
-﻿using Framework.Input;
+﻿using Framework.Extensions;
+using Framework.Input;
 using Framework.Signals;
 using Framework.Utils.Math;
 using Game.Colors;
 using Game.Main;
 using Game.Path;
+using Game.Spawn;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Game.Objects
 {
-    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(Rigidbody), typeof(Spawner))]
     public class Ball : MonoBehaviour
     {
         private bool _isActive;
@@ -23,6 +25,7 @@ namespace Game.Objects
         private Vector2 _lastDragDelta;
         private Vector2 _currentVelocity;
         private Rigidbody _rigidbody;
+        private Spawner _blotSpawner;
         private string _color;
 
         [SerializeField] private InputEventProvider _inputProvider;
@@ -35,6 +38,7 @@ namespace Game.Objects
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
+            _blotSpawner = GetComponent<Spawner>();
             _dragSpeedAverage = new VectorAverager(0.1f);
             _screenToWorldScaleFactor = 2 * Camera.main.orthographicSize / Camera.main.pixelHeight;
 
@@ -50,6 +54,7 @@ namespace Game.Objects
             _rigidbody.useGravity = false;
             _rigidbody.isKinematic = true;
             _rigidbody.velocity = Vector3.zero;
+            _blotSpawner.Flush();
             transform.position = _settings.StartPosition;
         }
 
@@ -116,8 +121,7 @@ namespace Game.Objects
             if (_currentVelocity.magnitude > 0.01f)
             {
                 Vector3 worldSpaceDelta = _currentVelocity * _settings.MoveSpeed * _screenToWorldScaleFactor;
-                newPosition = Vector3.SmoothDamp(transform.position, transform.position + worldSpaceDelta,
-                    ref _velocity, _settings.SmoothSpeed);
+                newPosition = Vector3.SmoothDamp(transform.position, transform.position + worldSpaceDelta, ref _velocity, _settings.SmoothSpeed);
             }
 
             _lastDragDelta = Vector2.zero;
@@ -131,18 +135,15 @@ namespace Game.Objects
                 if (distance > halfWay)
                 {
                     distance -= halfWay;
-                    newPosition.y = Mathf.Lerp(_settings.JumpHeight, 0f,
-                        _settings.InCurve.Evaluate(distance / halfWay));
+                    newPosition.y = Mathf.Lerp(_settings.JumpHeight, 0f, _settings.InCurve.Evaluate(distance / halfWay));
                 }
                 else
                 {
-                    newPosition.y = Mathf.Lerp(0f, _settings.JumpHeight,
-                        _settings.OutCurve.Evaluate(distance / halfWay));
+                    newPosition.y = Mathf.Lerp(0f, _settings.JumpHeight, _settings.OutCurve.Evaluate(distance / halfWay));
                 }
             }
 
-            transform.position = new Vector3(
-                Mathf.Clamp(newPosition.x, -_settings.XPositionCap, _settings.XPositionCap),
+            transform.position = new Vector3(Mathf.Clamp(newPosition.x, -_settings.XPositionCap, _settings.XPositionCap),
                 Mathf.Clamp(newPosition.y, 0f, _settings.JumpHeight), newPosition.z);
         }
 
@@ -169,6 +170,13 @@ namespace Game.Objects
                 if (platform != null)
                 {
                     _isOnPlatform = true;
+                    
+                    var blot = _blotSpawner.Spawn() as Blot;
+                    if (blot != null)
+                    {
+                        blot.Place(transform.position, platform.BaseTransform, _color);
+                    }
+                    
                     platform.Trigger();
                     GameController.Instance.GameSession.AddScorePoints(1);
                 }

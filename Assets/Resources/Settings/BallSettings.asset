@@ -18,6 +18,7 @@ MonoBehaviour:
   SmoothSpeed: 0.05
   VelocityCap: 5
   XPositionCap: 7
+  BlotDeactivationTime: 3
   InCurve:
     serializedVersion: 2
     m_Curve:

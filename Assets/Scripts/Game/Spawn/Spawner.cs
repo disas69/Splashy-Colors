@@ -48,9 +48,9 @@ namespace Game.Spawn
 
         public void Flush()
         {
-            for (int i = 0; i < _activeObjects.Count; i++)
+            for (var i = 0; i < _activeObjects.Count; i++)
             {
-                Despawn(_activeObjects[i]);
+                _activeObjects[i].Deactivate();
             }
         }
 

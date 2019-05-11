@@ -42,7 +42,7 @@ namespace Framework.Tools.Gameplay
             if (_itemsQueue.Count > 0)
             {
                 item = _itemsQueue.Dequeue();
-                item.transform.SetParent(_parentObject);
+                item.transform.SetParent(_parentObject, true);
                 item.gameObject.SetActive(true);
             }
             else
@@ -58,7 +58,7 @@ namespace Framework.Tools.Gameplay
             item.gameObject.SetActive(false);
             item.transform.position = Vector3.zero;
             item.transform.localEulerAngles = Vector3.zero;
-            item.transform.SetParent(_poolRoot);
+            item.transform.SetParent(_poolRoot, true);
 
             _itemsQueue.Enqueue(item);
         }
