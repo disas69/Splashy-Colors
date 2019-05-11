@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Game.Main;
 using Game.Spawn;
 using UnityEngine;
 
@@ -29,7 +30,7 @@ namespace Game.Path
 
             _lines.Clear();
 
-            for (var i = 0; i < _pathSettings.VisibleLinesCount; i++)
+            for (var i = 0; i < GameConfiguration.Instance.LinesVisible; i++)
             {
                 SpawnLine();
             }
@@ -73,7 +74,7 @@ namespace Game.Path
                 return;
             }
 
-            while (_lines.Count < _pathSettings.VisibleLinesCount)
+            while (_lines.Count < GameConfiguration.Instance.LinesVisible)
             {
                 SpawnLine();
             }
@@ -81,7 +82,7 @@ namespace Game.Path
             for (var i = _lines.Count - 1; i >= 0; i--)
             {
                 var line = _lines[i];
-                if (line.Position.z < -_pathSettings.DeactivationDistance)
+                if (line.Position.z < -GameConfiguration.Instance.LinesDeactivationDistance)
                 {
                     line.Deactivate();
                     _lines.RemoveAt(i);
@@ -98,7 +99,7 @@ namespace Game.Path
             var line = _linesSpawner.Spawn() as PathLine;
             if (line != null)
             {
-                var position = _pathSettings.StartPosition;
+                var position = Vector3.zero;
 
                 if (_lines.Count > 0)
                 {

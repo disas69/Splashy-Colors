@@ -3,6 +3,7 @@ using Framework.Tools.Gameplay;
 using Framework.Tools.Singleton;
 using Framework.UI;
 using Game.UI;
+using Game.UI.Pages;
 using UnityEngine;
 
 namespace Game.Main

@@ -1,5 +1,4 @@
 ﻿using Framework.Signals;
-using Game.Colors;
 using Game.Main;
 using Game.Spawn;
 using UnityEngine;
@@ -12,11 +11,12 @@ namespace Game.Objects
         private Animator _animator;
         private string _color;
 
-        [SerializeField] private PlatformSettings _settings;
         [SerializeField] private MeshRenderer _renderer;
         [SerializeField] private Signal _audioSignal;
+        [SerializeField] private string _soundName;
 
         public Transform BaseTransform => _renderer.gameObject.transform;
+        public string Color => _color;
 
         private void Awake()
         {
@@ -28,14 +28,14 @@ namespace Game.Objects
             if (GameController.Instance.GameState == GameState.Play)
             {
                 _animator.SetTrigger("React");
-                SignalsManager.Broadcast(_audioSignal.Name, "tap");
+                SignalsManager.Broadcast(_audioSignal.Name, _soundName);
             }
         }
 
         public void ApplyColor(string color)
         {
             _color = color;
-            _renderer.sharedMaterial = ColorSettings.GetMaterial(color);
+            _renderer.sharedMaterial = GameConfiguration.GetMaterial(color);
         }
 
         public override void Deactivate()

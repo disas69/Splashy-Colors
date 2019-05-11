@@ -20,10 +20,7 @@ MonoBehaviour:
     - 'best score:'
   - Language: 14
     Strings:
-    - '?'
+    - 'meilleurs points:'
   - Language: 9
     Strings:
-    - '?'
-  - Language: 30
-    Strings:
-    - "\u043B\u0443\u0447\u0448\u0438\u0439 \u0441\u0447\u0435\u0442:"
+    - 'beste punten:'

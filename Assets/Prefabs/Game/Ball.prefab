@@ -50,7 +50,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _inputProvider: {fileID: 0}
   _path: {fileID: 0}
-  _settings: {fileID: 11400000, guid: 5ba3eb6f704371b4496386b4dd66b1c3, type: 2}
   _renderer: {fileID: 3102459218837997469}
   _stateSignal:
     Name: StateChange
@@ -93,8 +92,8 @@ MeshRenderer:
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

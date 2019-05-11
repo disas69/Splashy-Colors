@@ -1,5 +1,4 @@
 ﻿using Framework.Signals;
-using Game.Colors;
 using Game.Objects;
 using Game.Path;
 using UnityEngine;
@@ -24,7 +23,7 @@ namespace Game.Main
 
         public void ResetSession()
         {
-            ApplyColor(ColorSettings.GetRandomColorName());
+            ApplyColor(GameConfiguration.GetRandomColorName());
             
             _ball.ResetBall();
             _path.ResetPath();
@@ -32,7 +31,7 @@ namespace Game.Main
 
         public void StartSession()
         {
-            _lives = 0;
+            _lives = GameConfiguration.Instance.Lives;
             _score = 0;
 
             _ball.Activate();
@@ -63,6 +62,7 @@ namespace Game.Main
             }
             else
             {
+                _ball.BlowUp();
                 GameController.Instance.SetState(GameState.End);
             }
         }

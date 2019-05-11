@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Game.Colors.Editor
 {
+    /*
     [CustomEditor(typeof(ColorSettings))]
     public class ColorSettingsEditor : CustomEditorBase<ColorSettings>
     {
@@ -49,4 +50,5 @@ namespace Game.Colors.Editor
             EditorGUILayout.EndVertical();
         }
     }
+    */
 }

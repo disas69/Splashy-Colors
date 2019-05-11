@@ -1,8 +1,6 @@
-﻿using Framework.Extensions;
-using Framework.Input;
+﻿using Framework.Input;
 using Framework.Signals;
 using Framework.Utils.Math;
-using Game.Colors;
 using Game.Main;
 using Game.Path;
 using Game.Spawn;
@@ -30,10 +28,12 @@ namespace Game.Objects
 
         [SerializeField] private InputEventProvider _inputProvider;
         [SerializeField] private PathController _path;
-        [SerializeField] private BallSettings _settings;
         [SerializeField] private MeshRenderer _renderer;
         [SerializeField] private Signal _stateSignal;
         [SerializeField] private Signal _audioSignal;
+
+        public string Color => _color;
+        public BallSettings Settings => GameConfiguration.Instance.BallSettings;
 
         private void Awake()
         {
@@ -51,11 +51,12 @@ namespace Game.Objects
         public void ResetBall()
         {
             _isOnPlatform = true;
+            _blotSpawner.Flush();
+            _renderer.enabled = true;
             _rigidbody.useGravity = false;
             _rigidbody.isKinematic = true;
             _rigidbody.velocity = Vector3.zero;
-            _blotSpawner.Flush();
-            transform.position = _settings.StartPosition;
+            transform.position = Vector3.zero;
         }
 
         public void Activate()
@@ -68,10 +69,16 @@ namespace Game.Objects
             _isActive = false;
         }
 
+        public void BlowUp()
+        {
+            _renderer.enabled = false;
+            SignalsManager.Broadcast(_audioSignal.Name, "tap");
+        }
+
         public void ApplyColor(string color)
         {
             _color = color;
-            _renderer.sharedMaterial = ColorSettings.GetMaterial(color);
+            _renderer.sharedMaterial = GameConfiguration.GetMaterial(color);
         }
 
         private void OnPointerDown(PointerEventData eventData)
@@ -120,8 +127,8 @@ namespace Game.Objects
 
             if (_currentVelocity.magnitude > 0.01f)
             {
-                Vector3 worldSpaceDelta = _currentVelocity * _settings.MoveSpeed * _screenToWorldScaleFactor;
-                newPosition = Vector3.SmoothDamp(transform.position, transform.position + worldSpaceDelta, ref _velocity, _settings.SmoothSpeed);
+                Vector3 worldSpaceDelta = _currentVelocity * Settings.MoveSpeed * _screenToWorldScaleFactor;
+                newPosition = Vector3.SmoothDamp(transform.position, transform.position + worldSpaceDelta, ref _velocity, Settings.SmoothSpeed);
             }
 
             _lastDragDelta = Vector2.zero;
@@ -135,16 +142,16 @@ namespace Game.Objects
                 if (distance > halfWay)
                 {
                     distance -= halfWay;
-                    newPosition.y = Mathf.Lerp(_settings.JumpHeight, 0f, _settings.InCurve.Evaluate(distance / halfWay));
+                    newPosition.y = Mathf.Lerp(Settings.JumpHeight, 0f, Settings.InCurve.Evaluate(distance / halfWay));
                 }
                 else
                 {
-                    newPosition.y = Mathf.Lerp(0f, _settings.JumpHeight, _settings.OutCurve.Evaluate(distance / halfWay));
+                    newPosition.y = Mathf.Lerp(0f, Settings.JumpHeight, Settings.OutCurve.Evaluate(distance / halfWay));
                 }
             }
 
-            transform.position = new Vector3(Mathf.Clamp(newPosition.x, -_settings.XPositionCap, _settings.XPositionCap),
-                Mathf.Clamp(newPosition.y, 0f, _settings.JumpHeight), newPosition.z);
+            transform.position = new Vector3(Mathf.Clamp(newPosition.x, -Settings.XPositionCap, Settings.XPositionCap),
+                Mathf.Clamp(newPosition.y, 0f, Settings.JumpHeight), newPosition.z);
         }
 
         private float GetHalfWay(PathLine nextPathLine)
@@ -178,7 +185,15 @@ namespace Game.Objects
                     }
                     
                     platform.Trigger();
-                    GameController.Instance.GameSession.AddScorePoints(1);
+
+                    if (platform.Color == _color)
+                    {
+                        GameController.Instance.GameSession.AddScorePoints(1);
+                    }
+                    else
+                    {
+                        GameController.Instance.GameSession.SubtractLive();
+                    }
                 }
                 else
                 {
@@ -187,7 +202,7 @@ namespace Game.Objects
                     {
                         _rigidbody.useGravity = true;
                         _rigidbody.isKinematic = false;
-                        _rigidbody.AddForce(Vector3.down * _settings.MoveSpeed, ForceMode.Impulse);
+                        _rigidbody.AddForce(Vector3.down * Settings.MoveSpeed, ForceMode.Impulse);
                         SignalsManager.Broadcast(_stateSignal.Name, GameState.End.ToString());
                     }
                 }

@@ -1,4 +1,4 @@
-using Game.Colors;
+using Game.Main;
 using Game.Spawn;
 using UnityEngine;
 
@@ -37,8 +37,8 @@ namespace Game.Objects
 
         public void ApplyColor(string color)
         {
-            _renderer.color = ColorSettings.GetColor(color);
-            _splashMaterial.color = ColorSettings.GetColor(color);
+            _renderer.color = GameConfiguration.GetColor(color);
+            _splashMaterial.color = GameConfiguration.GetColor(color);
         }
 
         private void Randomize()

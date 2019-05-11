@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Game.Colors;
+using Game.Main;
 using Game.Objects;
 using Game.Spawn;
 using UnityEngine;
@@ -41,7 +41,7 @@ namespace Game.Path
         {
             var count = isFirstPlatform ? 1 : Random.Range(_settings.MinPlatmormsCount, _settings.MaxPlatformsCount + 1);
             var width = count * _settings.PlatformWidth;
-            var position = _settings.StartPosition;
+            var position = Vector3.zero;
             position.x = -(width / 2f);
 
             for (var i = 0; i < count; i++)
@@ -77,7 +77,7 @@ namespace Game.Path
                     var randomPlatform = _platforms[i];
                     if (randomPlatform != platform)
                     {
-                        randomPlatform.ApplyColor(ColorSettings.GetRandomColorName());
+                        randomPlatform.ApplyColor(GameConfiguration.GetRandomColorName());
                     }
                 }
             }
