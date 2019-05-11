@@ -5,6 +5,8 @@ using Framework.Input;
 using Framework.Signals;
 using Framework.UI.Structure.Base.Model;
 using Framework.UI.Structure.Base.View;
+using Game.Main;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -17,11 +19,13 @@ namespace Game.UI
         [SerializeField] private CanvasGroup _overlay;
         [SerializeField] private float _overlayTransitionSpeed;
         [SerializeField] private Signal _stateChangeSignal;
+        [SerializeField] private TextMeshProUGUI _bestScore;
 
         public override void OnEnter()
         {
             base.OnEnter();
             InputEventProvider.Instance.PointerDown += OnPointerPown;
+            _bestScore.text = GameData.Data.BestScore.ToString();
         }
 
         protected override IEnumerator InTransition(Action callback)

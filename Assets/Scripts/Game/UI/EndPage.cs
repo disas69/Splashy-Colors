@@ -1,31 +1,24 @@
-﻿using Framework.Input;
+﻿using Framework.Extensions;
 using Framework.Signals;
 using Framework.UI.Structure.Base.Model;
 using Framework.UI.Structure.Base.View;
+using Game.Main;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Game.UI
 {
     public class EndPage : Page<PageModel>
     {
+        [SerializeField] private float _waitTime;
         [SerializeField] private Signal _stateChangeSignal;
 
         public override void OnEnter()
         {
             base.OnEnter();
-            InputEventProvider.Instance.PointerDown += OnPointerPown;
-        }
-
-        private void OnPointerPown(PointerEventData eventData)
-        {
-            SignalsManager.Broadcast(_stateChangeSignal.Name, GameState.Start.ToString());
-        }
-
-        public override void OnExit()
-        {
-            base.OnExit();
-            InputEventProvider.Instance.PointerDown -= OnPointerPown;
+            this.WaitForSeconds(_waitTime, () =>
+            {
+                SignalsManager.Broadcast(_stateChangeSignal.Name, GameState.Start.ToString());
+            });
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Framework.Localization
@@ -10,17 +11,17 @@ namespace Framework.Localization
         ToLower
     }
 
-    [RequireComponent(typeof(Text))]
+    [RequireComponent(typeof(TextMeshProUGUI))]
     public class TextLocalizer : MonoBehaviour
     {
-        private Text _textComponent;
+        private TextMeshProUGUI _textComponent;
 
         [HideInInspector] public string Key;
         public TextLocalizerMode Mode = TextLocalizerMode.NoMode;
 
         private void Start()
         {
-            _textComponent = GetComponent<Text>();
+            _textComponent = GetComponent<TextMeshProUGUI>();
 
             LocalizationManager.LanguageChanged += Localize;
             Localize();

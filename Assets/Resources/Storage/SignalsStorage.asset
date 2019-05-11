@@ -13,5 +13,8 @@ MonoBehaviour:
   m_Name: SignalsStorage
   m_EditorClassIdentifier: 
   Signals:
-  - State Change
-  - Play Audio
+  - StateChange
+  - PlayAudio
+  - ScoreChange
+  - LiveChange
+  - ColorChange

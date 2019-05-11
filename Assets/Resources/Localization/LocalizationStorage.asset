@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e31777f2d847c45e68a891765d7c6b5d, type: 3}
+  m_Name: LocalizationStorage
+  m_EditorClassIdentifier: 
+  Keys:
+  - BestScore
+  LanguagesData:
+  - Language: 10
+    Strings:
+    - 'best score:'
+  - Language: 14
+    Strings:
+    - '?'
+  - Language: 9
+    Strings:
+    - '?'
+  - Language: 30
+    Strings:
+    - "\u043B\u0443\u0447\u0448\u0438\u0439 \u0441\u0447\u0435\u0442:"
