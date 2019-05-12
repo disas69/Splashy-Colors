@@ -3,6 +3,7 @@ using Framework.Signals;
 using Game.Data;
 using Game.Data.Settings;
 using Game.Main;
+using Game.Pickups;
 using Game.Spawn;
 using UnityEngine;
 
@@ -14,11 +15,12 @@ namespace Game.Path
         private bool _isActive;
         private float _speed;
         private float _time;
-        private float _timeSinceLastSpeedIncrease;
         private Spawner _linesSpawner;
         private List<Line> _lines;
+        private int _linesStep;
         private string _color;
 
+        [SerializeField] private PickupsSpawner _pickupsSpawner;
         [SerializeField] private Signal _levelSignal;
 
         private void Awake()
@@ -35,6 +37,7 @@ namespace Game.Path
             }
 
             _lines.Clear();
+            _linesStep = 0;
 
             for (var i = 0; i < GameConfiguration.Instance.LinesCount; i++)
             {
@@ -45,17 +48,16 @@ namespace Game.Path
         public void Activate()
         {
             _isActive = true;
-            _time = 0f;
-            _timeSinceLastSpeedIncrease = Time.time;
+            _time = Time.time;
             
             ApplyStartSpeed(GameController.Instance.GameSession.Level);
-            SignalsManager.Register(_levelSignal.Name, ApplyStartSpeed);
+            SignalsManager.Register(_levelSignal.Name, OnLevelChange);
         }
 
         public void Deactivate()
         {
             _isActive = false;
-            SignalsManager.Unregister(_levelSignal.Name, ApplyStartSpeed);
+            SignalsManager.Unregister(_levelSignal.Name, OnLevelChange);
         }
 
         public void ApplyColor(string color)
@@ -104,10 +106,10 @@ namespace Game.Path
                     var levelSettings = GameConfiguration.GetLevelSettings(GameController.Instance.GameSession.Level);
                     if (levelSettings != null)
                     {
-                        if (levelSettings.PathSettings.SpeedIncreaseTime > 0f && Time.time - _timeSinceLastSpeedIncrease > levelSettings.PathSettings.SpeedIncreaseTime)
+                        if (levelSettings.PathSettings.SpeedIncreaseTime > 0f && Time.time - _time > levelSettings.PathSettings.SpeedIncreaseTime)
                         {
                             _speed = Mathf.Clamp(_speed * (1 + levelSettings.PathSettings.SpeedMultiplier), levelSettings.PathSettings.StartSpeed, levelSettings.PathSettings.MaxSpeed);
-                            _timeSinceLastSpeedIncrease = Time.time;
+                            _time = Time.time;
                             Debug.Log($"Path speed change: {_speed}");
                         }
                         
@@ -115,8 +117,6 @@ namespace Game.Path
                     }
                 }
             }
-
-            _time += Time.deltaTime;
         }
 
         private void SpawnLine()
@@ -136,12 +136,33 @@ namespace Game.Path
                         position.z += Random.Range(level.PathSettings.MinPlatformDistance, level.PathSettings.MaxPlatformDistance);
                     }
 
+                    Pickup pickup = null;
+                    if (level.LineSettings.PickupSpawnStep > 0 && _linesStep >= level.LineSettings.PickupSpawnStep)
+                    {
+                        _linesStep = 0;
+                        pickup = _pickupsSpawner.GetNextPickup();
+                        if (pickup != null)
+                        {
+                            pickup.Activate();
+                        }
+                    }
+                    else
+                    {
+                        _linesStep++;
+                    }
+                    
                     line.Position = position;
-                    line.Setup(_lines.Count == 0, _color);
+                    line.Setup(_lines.Count == 0, level, _color, pickup);
 
                     _lines.Add(line);
                 }
             }
+        }
+
+        private void OnLevelChange(int level)
+        {
+            _linesStep = 0;
+            ApplyStartSpeed(level);
         }
 
         private void ApplyStartSpeed(int level)

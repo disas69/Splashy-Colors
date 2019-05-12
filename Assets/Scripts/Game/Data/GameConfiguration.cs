@@ -15,6 +15,7 @@ namespace Game.Data
         public float LinesVisibleRange;
         public BallSettings BallSettings;
         public List<ColorSettings> Colors = new List<ColorSettings>();
+        public List<PickupsSettings> Pickups = new List<PickupsSettings>();
         public List<LevelSettings> Levels = new List<LevelSettings>();
 
         public static string GetRandomColorName()

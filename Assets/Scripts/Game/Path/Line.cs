@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using Game.Data;
+using Game.Data.Settings;
 using Game.Main;
 using Game.Objects;
+using Game.Pickups;
 using Game.Spawn;
 using UnityEngine;
 
@@ -31,36 +33,37 @@ namespace Game.Path
             {
                 _platforms[i].Deactivate();
             }
-            
+
             _platforms.Clear();
             base.Deactivate();
         }
 
-        public void Setup(bool isFirstPlatform, string color)
+        public void Setup(bool isFirstPlatform, LevelSettings level, string color, Pickup pickup = null)
         {
-            var level = GameConfiguration.GetLevelSettings(GameController.Instance.GameSession.Level);
-            if (level != null)
+            var count = isFirstPlatform ? 1 : Random.Range(level.LineSettings.MinPlatformsCount, level.LineSettings.MaxPlatformsCount + 1);
+            var width = count * level.LineSettings.PlatformWidth;
+            var position = Vector3.zero;
+            position.x = -(width / 2f);
+
+            for (var i = 0; i < count; i++)
             {
-                var count = isFirstPlatform ? 1 : Random.Range(level.LineSettings.MinPlatformsCount, level.LineSettings.MaxPlatformsCount + 1);
-                var width = count * level.LineSettings.PlatformWidth;
-                var position = Vector3.zero;
-                position.x = -(width / 2f);
+                position.x += level.LineSettings.PlatformWidth / 2f;
 
-                for (var i = 0; i < count; i++)
+                var platform = _platformSpawner.Spawn() as Platform;
+                if (platform != null)
                 {
-                    position.x += level.LineSettings.PlatformWidth / 2f;
-
-                    var platform = _platformSpawner.Spawn() as Platform;
-                    if (platform != null)
-                    {
-                        platform.transform.localPosition = position;
-                        _platforms.Add(platform);
-                    }
-
-                    position.x += level.LineSettings.PlatformWidth / 2f;
+                    platform.transform.localPosition = position;
+                    _platforms.Add(platform);
                 }
-            
-                ApplyColor(color);
+
+                position.x += level.LineSettings.PlatformWidth / 2f;
+            }
+
+            ApplyColor(color);
+
+            if (!isFirstPlatform && pickup != null)
+            {
+                SpawnPickup(pickup, level);
             }
         }
 
@@ -74,7 +77,7 @@ namespace Game.Path
             {
                 var platform = _platforms[Random.Range(0, _platforms.Count)];
                 platform.ApplyColor(color);
-                
+
                 for (var i = 0; i < _platforms.Count; i++)
                 {
                     var randomPlatform = _platforms[i];
@@ -84,6 +87,12 @@ namespace Game.Path
                     }
                 }
             }
+        }
+
+        public void SpawnPickup(Pickup pickup, LevelSettings levelSettings)
+        {
+            var platform = _platforms[Random.Range(0, _platforms.Count)];
+            pickup.Place(platform.BaseTransform.position, platform.BaseTransform);
         }
     }
 }

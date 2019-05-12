@@ -1,21 +1,25 @@
-﻿using Framework.Input;
+﻿using Framework.Extensions;
+using Framework.Input;
 using Framework.Signals;
 using Framework.Utils.Math;
 using Game.Data;
 using Game.Data.Settings;
 using Game.Main;
 using Game.Path;
+using Game.Pickups;
 using Game.Spawn;
+using Game.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Game.Objects
 {
-    [RequireComponent(typeof(Rigidbody), typeof(Spawner))]
+    [RequireComponent(typeof(Rigidbody))]
     public class Ball : MonoBehaviour
     {
         private bool _isActive;
         private bool _isOnPlatform;
+        private bool _isInvincible;
         private VectorAverager _dragSpeedAverage;
         private float _screenToWorldScaleFactor;
         private Line _currentLine;
@@ -25,11 +29,12 @@ namespace Game.Objects
         private Vector2 _lastDragDelta;
         private Vector2 _currentVelocity;
         private Rigidbody _rigidbody;
-        private Spawner _blotSpawner;
         private string _color;
 
         [SerializeField] private InputEventProvider _inputProvider;
         [SerializeField] private PathController _path;
+        [SerializeField] private Spawner _blotSpawner;
+        [SerializeField] private Spawner _hintsSpawner;
         [SerializeField] private MeshRenderer _renderer;
         [SerializeField] private Signal _stateSignal;
         [SerializeField] private Signal _audioSignal;
@@ -40,7 +45,6 @@ namespace Game.Objects
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
-            _blotSpawner = GetComponent<Spawner>();
             _dragSpeedAverage = new VectorAverager(0.1f);
             _screenToWorldScaleFactor = 2 * Camera.main.orthographicSize / Camera.main.pixelHeight;
 
@@ -54,6 +58,7 @@ namespace Game.Objects
         {
             _isOnPlatform = true;
             _blotSpawner.Flush();
+            _hintsSpawner.Flush();
             _renderer.enabled = true;
             _rigidbody.useGravity = false;
             _rigidbody.isKinematic = true;
@@ -79,8 +84,11 @@ namespace Game.Objects
 
         public void ApplyColor(string color)
         {
+            _isInvincible = true;
             _color = color;
             _renderer.sharedMaterial = GameConfiguration.GetMaterial(color);
+
+            this.WaitForSeconds(GameConfiguration.Instance.BallSettings.InvincibilityTime, () => _isInvincible = false);
         }
 
         private void OnPointerDown(PointerEventData eventData)
@@ -179,23 +187,7 @@ namespace Game.Objects
                 if (platform != null)
                 {
                     _isOnPlatform = true;
-                    
-                    var blot = _blotSpawner.Spawn() as Blot;
-                    if (blot != null)
-                    {
-                        blot.Place(transform.position, platform.BaseTransform, _color);
-                    }
-                    
-                    platform.Trigger();
-
-                    if (platform.Color == _color)
-                    {
-                        GameController.Instance.GameSession.AddScorePoints(1);
-                    }
-                    else
-                    {
-                        GameController.Instance.GameSession.SubtractLive();
-                    }
+                    ProcessPlatform(platform);
                 }
                 else
                 {
@@ -209,6 +201,12 @@ namespace Game.Objects
                     }
                 }
             }
+
+            var pickup = otherCollider.GetComponent<Pickup>();
+            if (pickup != null)
+            {
+                pickup.Trigger();
+            }
         }
 
         private void OnTriggerExit(Collider otherCollider)
@@ -218,6 +216,43 @@ namespace Game.Objects
             {
                 _isOnPlatform = false;
             }
+        }
+
+        private void ProcessPlatform(Platform platform)
+        {
+            if (platform.Color == _color)
+            {
+                if (GameController.Instance.GameState == GameState.Play)
+                {
+                    var level = GameConfiguration.GetLevelSettings(GameController.Instance.GameSession.Level);
+                    if (level != null)
+                    {
+                        var score = level.LineSettings.PlatformScore * GameController.Instance.GameSession.ScoreMultiplier;
+                        GameController.Instance.GameSession.AddScorePoints(score);
+                        
+                        var hint = _hintsSpawner.Spawn() as Hint;
+                        if (hint != null)
+                        {
+                            hint.Place(transform.position, platform.BaseTransform, score);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (!_isInvincible)
+                {
+                    GameController.Instance.GameSession.SubtractLive();
+                }
+            }
+            
+            var blot = _blotSpawner.Spawn() as Blot;
+            if (blot != null)
+            {
+                blot.Place(transform.position, platform.BaseTransform, _color);
+            }
+            
+            platform.Trigger();
         }
 
         private void OnDestroy()

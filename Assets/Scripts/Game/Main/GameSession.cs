@@ -18,13 +18,14 @@ namespace Game.Main
         public int Lives { get; private set; }
         public int Level { get; private set; }
         public int Score { get; private set; }
+        public int ScoreMultiplier { get; private set; }
         public string Color { get; private set; }
 
         public void ResetSession()
         {
             ApplyColor(GameConfiguration.GetRandomColorName());
-            
             Level = GameData.Data.Level;
+            
             _ball.ResetBall();
             _path.ResetPath();
         }
@@ -33,6 +34,7 @@ namespace Game.Main
         {
             Lives = GameConfiguration.Instance.Lives;
             Score = 0;
+            ScoreMultiplier = 1;
 
             _ball.Activate();
             _path.Activate();
@@ -91,10 +93,23 @@ namespace Game.Main
 
         public void ApplyColor(string color)
         {
-            Color = color;
-            _ball.ApplyColor(color);
-            _path.ApplyColor(color);
-            SignalsManager.Broadcast(_colorSignal.Name, color);
+            if (color != Color)
+            {
+                Color = color;
+                _ball.ApplyColor(color);
+                _path.ApplyColor(color);
+                SignalsManager.Broadcast(_colorSignal.Name, color);
+            }
+            else
+            {
+                Lives++;
+                SignalsManager.Broadcast(_livesSignal.Name, Lives);
+            }
+        }
+
+        public void ApplyMultiplier(int multiplier)
+        {
+            ScoreMultiplier *= multiplier;
         }
     }
 }

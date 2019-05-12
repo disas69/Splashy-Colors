@@ -8,6 +8,7 @@ namespace Game.Editor
     public class GameConfigurationWindow : EditorWindow
     {
         private SerializedObject _serializedObject;
+        private Vector2 _settingsContentPosition;
         private Vector2 _colorsContentPosition;
         private Vector2 _levelsContentPosition;
         private GUIStyle _headerStyle;
@@ -55,10 +56,15 @@ namespace Game.Editor
             {
                 EditorGUILayout.BeginVertical(GUI.skin.box, GUILayout.Width(285f), GUILayout.ExpandHeight(true));
                 {
-                    DrawGameSettings();
-                    DrawDataSettings();
-                    DrawBallSettings();
-                    DrawColorSettings();
+                    _settingsContentPosition = EditorGUILayout.BeginScrollView(_settingsContentPosition);
+                    {
+                        DrawGameSettings();
+                        DrawDataSettings();
+                        DrawBallSettings();
+                        DrawColorSettings();
+                        DrawPickupsSettings();
+                    }
+                    EditorGUILayout.EndScrollView();
                 }
                 EditorGUILayout.EndVertical();
 
@@ -124,6 +130,7 @@ namespace Game.Editor
                 EditorGUILayout.PropertyField(ballSettings.FindPropertyRelative("MoveSpeed"));
                 EditorGUILayout.PropertyField(ballSettings.FindPropertyRelative("SmoothSpeed"));
                 EditorGUILayout.PropertyField(ballSettings.FindPropertyRelative("XPositionCap"));
+                EditorGUILayout.PropertyField(ballSettings.FindPropertyRelative("InvincibilityTime"));
                 EditorGUILayout.PropertyField(ballSettings.FindPropertyRelative("InCurve"));
                 EditorGUILayout.PropertyField(ballSettings.FindPropertyRelative("OutCurve"));
             }
@@ -141,35 +148,70 @@ namespace Game.Editor
                     GameConfiguration.Instance.Colors.Add(new ColorSettings());
                 }
 
-                _colorsContentPosition = EditorGUILayout.BeginScrollView(_colorsContentPosition);
+                var colors = _serializedObject.FindProperty("Colors");
+                var count = colors.arraySize;
+                for (var i = 0; i < count; i++)
                 {
-                    var colors = _serializedObject.FindProperty("Colors");
-                    var count = colors.arraySize;
-                    for (var i = 0; i < count; i++)
+                    EditorGUILayout.BeginHorizontal(GUI.skin.box);
                     {
-                        EditorGUILayout.BeginHorizontal(GUI.skin.box);
+                        var element = colors.GetArrayElementAtIndex(i);
+
+                        EditorGUILayout.BeginVertical();
                         {
-                            var element = colors.GetArrayElementAtIndex(i);
-
-                            EditorGUILayout.BeginVertical();
-                            {
-                                EditorGUILayout.PropertyField(element.FindPropertyRelative("Name"));
-                                EditorGUILayout.PropertyField(element.FindPropertyRelative("Color"));
-                                EditorGUILayout.PropertyField(element.FindPropertyRelative("Material"));
-                            }
-                            EditorGUILayout.EndVertical();
-
-                            if (GUILayout.Button("X", GUILayout.Width(20)))
-                            {
-                                RecordObject("Color Settings Change");
-                                GameConfiguration.Instance.Colors.RemoveAt(i);
-                            }
+                            EditorGUILayout.PropertyField(element.FindPropertyRelative("Name"));
+                            EditorGUILayout.PropertyField(element.FindPropertyRelative("Color"));
+                            EditorGUILayout.PropertyField(element.FindPropertyRelative("Material"));
                         }
-                        EditorGUILayout.EndHorizontal();
-                        EditorGUILayout.Space();
+                        EditorGUILayout.EndVertical();
+
+                        if (GUILayout.Button("X", GUILayout.Width(20)))
+                        {
+                            RecordObject("Color Settings Change");
+                            GameConfiguration.Instance.Colors.RemoveAt(i);
+                        }
                     }
+                    EditorGUILayout.EndHorizontal();
+                    EditorGUILayout.Space();
                 }
-                EditorGUILayout.EndScrollView();
+            }
+            EditorGUILayout.EndVertical();
+        }
+
+        private void DrawPickupsSettings()
+        {
+            EditorGUILayout.LabelField("Pickups", _headerStyle);
+            EditorGUILayout.BeginVertical(GUI.skin.box);
+            {
+                if (GUILayout.Button("Add pickup"))
+                {
+                    RecordObject("Pickup Settings Change");
+                    GameConfiguration.Instance.Pickups.Add(new PickupsSettings());
+                }
+
+                var pickups = _serializedObject.FindProperty("Pickups");
+                var count = pickups.arraySize;
+                for (var i = 0; i < count; i++)
+                {
+                    EditorGUILayout.BeginHorizontal(GUI.skin.box);
+                    {
+                        var element = pickups.GetArrayElementAtIndex(i);
+
+                        EditorGUILayout.BeginVertical();
+                        {
+                            EditorGUILayout.PropertyField(element.FindPropertyRelative("Type"));
+                            EditorGUILayout.PropertyField(element.FindPropertyRelative("Chance"));
+                        }
+                        EditorGUILayout.EndVertical();
+
+                        if (GUILayout.Button("X", GUILayout.Width(20)))
+                        {
+                            RecordObject("Pickups Settings Change");
+                            GameConfiguration.Instance.Pickups.RemoveAt(i);
+                        }
+                    }
+                    EditorGUILayout.EndHorizontal();
+                    EditorGUILayout.Space();
+                }
             }
             EditorGUILayout.EndVertical();
         }
@@ -207,6 +249,9 @@ namespace Game.Editor
 
                                     var lineSettings = element.FindPropertyRelative("LineSettings");
                                     EditorGUILayout.LabelField("Line Settings", _labelStyle);
+                                    EditorGUILayout.PropertyField(lineSettings.FindPropertyRelative("PlatformScore"));
+                                    EditorGUILayout.PropertyField(lineSettings.FindPropertyRelative("ScoreMultiplier"));
+                                    EditorGUILayout.PropertyField(lineSettings.FindPropertyRelative("PickupSpawnStep"));
                                     EditorGUILayout.PropertyField(lineSettings.FindPropertyRelative("PlatformWidth"));
                                     EditorGUILayout.PropertyField(lineSettings.FindPropertyRelative("MinPlatformsCount"));
                                     EditorGUILayout.PropertyField(lineSettings.FindPropertyRelative("MaxPlatformsCount"));

@@ -1,6 +1,7 @@
 ﻿using Framework.Signals;
 using Game.Data;
 using Game.Main;
+using Game.Pickups;
 using Game.Spawn;
 using UnityEngine;
 
@@ -46,6 +47,20 @@ namespace Game.Objects
             for (var i = 0; i < blots.Length; i++)
             {
                 blots[i].Deactivate();
+            }
+
+            var hints = GetComponentsInChildren<Hint>();
+
+            for (var i = 0; i < hints.Length; i++)
+            {
+                hints[i].Deactivate();
+            }
+
+            var pickups = GetComponentsInChildren<Pickup>();
+
+            for (var i = 0; i < pickups.Length; i++)
+            {
+                pickups[i].Deactivate();
             }
             
             base.Deactivate();

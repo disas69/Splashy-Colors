@@ -10,6 +10,7 @@ namespace Game.Data.Settings
         public float MoveSpeed;
         public float SmoothSpeed;
         public float XPositionCap;
+        public float InvincibilityTime;
         public AnimationCurve InCurve;
         public AnimationCurve OutCurve;
     }
