@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 661535624268601421}
   - component: {fileID: 3426474531531008737}
   m_Layer: 0
-  m_Name: MultiplierPickup
+  m_Name: Multiplier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 1270592736606187570}
   - component: {fileID: 4807489446956187425}
   - component: {fileID: 5371127462387114363}
+  - component: {fileID: 865371424983010357}
   m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -266,3 +267,19 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   m_maskType: 0
+--- !u!111 &865371424983010357
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8628941154089539449}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: d8f5925bf507b174db3a6a25af2be7d1, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: d8f5925bf507b174db3a6a25af2be7d1, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0

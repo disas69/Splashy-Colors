@@ -15,6 +15,7 @@ MonoBehaviour:
   Lives: 3
   LinesCount: 20
   LinesVisibleRange: 10
+  ColorChangeTime: 2
   BallSettings:
     JumpHeight: 2.5
     MoveSpeed: 8
@@ -95,7 +96,7 @@ MonoBehaviour:
   - Type: 2
     Chance: 0.3
   - Type: 1
-    Chance: 0.5
+    Chance: 0.7
   - Type: 0
     Chance: 1
   Levels:
@@ -138,7 +139,7 @@ MonoBehaviour:
     LineSettings:
       PlatformScore: 1
       ScoreMultiplier: 2
-      PickupSpawnStep: 3
+      PickupSpawnStep: 5
       PlatformWidth: 4
       MinPlatformsCount: 1
       MaxPlatformsCount: 3
@@ -155,7 +156,7 @@ MonoBehaviour:
     LineSettings:
       PlatformScore: 1
       ScoreMultiplier: 2
-      PickupSpawnStep: 0
+      PickupSpawnStep: 5
       PlatformWidth: 4
       MinPlatformsCount: 1
       MaxPlatformsCount: 3
@@ -172,7 +173,7 @@ MonoBehaviour:
     LineSettings:
       PlatformScore: 1
       ScoreMultiplier: 2
-      PickupSpawnStep: 0
+      PickupSpawnStep: 4
       PlatformWidth: 4
       MinPlatformsCount: 1
       MaxPlatformsCount: 3
@@ -189,7 +190,7 @@ MonoBehaviour:
     LineSettings:
       PlatformScore: 1
       ScoreMultiplier: 2
-      PickupSpawnStep: 3
+      PickupSpawnStep: 4
       PlatformWidth: 4
       MinPlatformsCount: 1
       MaxPlatformsCount: 3
@@ -206,7 +207,7 @@ MonoBehaviour:
     LineSettings:
       PlatformScore: 1
       ScoreMultiplier: 2
-      PickupSpawnStep: 4
+      PickupSpawnStep: 3
       PlatformWidth: 4
       MinPlatformsCount: 1
       MaxPlatformsCount: 3

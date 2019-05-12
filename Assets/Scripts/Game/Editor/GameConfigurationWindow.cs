@@ -111,6 +111,7 @@ namespace Game.Editor
                 EditorGUILayout.PropertyField(_serializedObject.FindProperty("Lives"));
                 EditorGUILayout.PropertyField(_serializedObject.FindProperty("LinesCount"));
                 EditorGUILayout.PropertyField(_serializedObject.FindProperty("LinesVisibleRange"));
+                EditorGUILayout.PropertyField(_serializedObject.FindProperty("ColorChangeTime"));
                 
                 if (GUILayout.Button("Play"))
                 {

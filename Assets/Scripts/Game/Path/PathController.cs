@@ -141,10 +141,6 @@ namespace Game.Path
                     {
                         _linesStep = 0;
                         pickup = _pickupsSpawner.GetNextPickup();
-                        if (pickup != null)
-                        {
-                            pickup.Activate();
-                        }
                     }
                     else
                     {

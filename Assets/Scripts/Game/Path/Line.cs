@@ -63,7 +63,7 @@ namespace Game.Path
 
             if (!isFirstPlatform && pickup != null)
             {
-                SpawnPickup(pickup, level);
+                SpawnPickup(pickup);
             }
         }
 
@@ -89,10 +89,11 @@ namespace Game.Path
             }
         }
 
-        public void SpawnPickup(Pickup pickup, LevelSettings levelSettings)
+        public void SpawnPickup(Pickup pickup)
         {
             var platform = _platforms[Random.Range(0, _platforms.Count)];
             pickup.Place(platform.BaseTransform.position, platform.BaseTransform);
+            pickup.Activate();
         }
     }
 }

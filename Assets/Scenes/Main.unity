@@ -194,7 +194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _activateOnAwake: 1
   _settings:
-    ObjectPrefab: {fileID: 5161355846705558036, guid: 6e752332e745d17429b97d7bd572c872,
+    ObjectPrefab: {fileID: 1918505166545734043, guid: a5819075a9cb48641ad4ab968845aa82,
       type: 3}
     PoolCapacity: 3
 --- !u!114 &87118571

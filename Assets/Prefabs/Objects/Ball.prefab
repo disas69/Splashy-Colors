@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4975467171964763618}
   - component: {fileID: 3496012031492384908}
   - component: {fileID: 53032990887650779}
+  - component: {fileID: 7158150852365336785}
   - component: {fileID: 2974711426903883444}
   - component: {fileID: 3102459218837997469}
   - component: {fileID: 4591625732642021659}
@@ -54,6 +55,7 @@ MonoBehaviour:
   _blotSpawner: {fileID: 3496012031492384908}
   _hintsSpawner: {fileID: 53032990887650779}
   _renderer: {fileID: 3102459218837997469}
+  _colorChanger: {fileID: 7158150852365336785}
   _stateSignal:
     Name: StateChange
   _audioSignal:
@@ -92,6 +94,19 @@ MonoBehaviour:
     ObjectPrefab: {fileID: 7087637423367601595, guid: ffc4d4dd5f7f8234f87148eec4650a08,
       type: 3}
     PoolCapacity: 10
+--- !u!114 &7158150852365336785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6168671672151754128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6d83771f5c4e634caad9e0abe167bae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _renderer: {fileID: 3102459218837997469}
 --- !u!33 &2974711426903883444
 MeshFilter:
   m_ObjectHideFlags: 0

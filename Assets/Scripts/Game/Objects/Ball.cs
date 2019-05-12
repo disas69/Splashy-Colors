@@ -1,4 +1,5 @@
-﻿using Framework.Extensions;
+﻿using System.Collections;
+using Framework.Extensions;
 using Framework.Input;
 using Framework.Signals;
 using Framework.Utils.Math;
@@ -9,6 +10,7 @@ using Game.Path;
 using Game.Pickups;
 using Game.Spawn;
 using Game.UI;
+using Game.Utils;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -36,6 +38,7 @@ namespace Game.Objects
         [SerializeField] private Spawner _blotSpawner;
         [SerializeField] private Spawner _hintsSpawner;
         [SerializeField] private MeshRenderer _renderer;
+        [SerializeField] private ColorChanger _colorChanger;
         [SerializeField] private Signal _stateSignal;
         [SerializeField] private Signal _audioSignal;
 
@@ -86,7 +89,7 @@ namespace Game.Objects
         {
             _isInvincible = true;
             _color = color;
-            _renderer.sharedMaterial = GameConfiguration.GetMaterial(color);
+            _colorChanger.ChangeColor(GameConfiguration.GetMaterial(color), GameConfiguration.Instance.ColorChangeTime);
 
             this.WaitForSeconds(GameConfiguration.Instance.BallSettings.InvincibilityTime, () => _isInvincible = false);
         }

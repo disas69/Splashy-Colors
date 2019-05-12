@@ -13,6 +13,7 @@ namespace Game.Data
         [Range(1, 5)] public int Lives;
         public int LinesCount;
         public float LinesVisibleRange;
+        public float ColorChangeTime;
         public BallSettings BallSettings;
         public List<ColorSettings> Colors = new List<ColorSettings>();
         public List<PickupsSettings> Pickups = new List<PickupsSettings>();

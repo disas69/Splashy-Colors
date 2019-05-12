@@ -3,6 +3,7 @@ using Game.Data;
 using Game.Main;
 using Game.Pickups;
 using Game.Spawn;
+using Game.Utils;
 using UnityEngine;
 
 namespace Game.Objects
@@ -14,6 +15,7 @@ namespace Game.Objects
         private string _color;
 
         [SerializeField] private MeshRenderer _renderer;
+        [SerializeField] private ColorChanger _colorChanger;
         [SerializeField] private Signal _audioSignal;
         [SerializeField] private string _soundName;
 
@@ -37,7 +39,7 @@ namespace Game.Objects
         public void ApplyColor(string color)
         {
             _color = color;
-            _renderer.sharedMaterial = GameConfiguration.GetMaterial(color);
+            _colorChanger.ChangeColor(GameConfiguration.GetMaterial(color), GameConfiguration.Instance.ColorChangeTime);
         }
 
         public override void Deactivate()
