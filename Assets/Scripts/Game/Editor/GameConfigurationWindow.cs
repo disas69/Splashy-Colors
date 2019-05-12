@@ -7,21 +7,11 @@ namespace Game.Editor
 {
     public class GameConfigurationWindow : EditorWindow
     {
-        private const string Title = "Game Configuration";
-
         private SerializedObject _serializedObject;
         private Vector2 _colorsContentPosition;
         private Vector2 _levelsContentPosition;
         private GUIStyle _headerStyle;
         private GUIStyle _labelStyle;
-
-        [MenuItem("Game/Configuration", priority = 3)]
-        public static void OpenWindow()
-        {
-            var window = GetWindow<GameConfigurationWindow>(Title);
-            window.minSize = new Vector2(650f, 450f);
-            window.Show();
-        }
 
         private void OnEnable()
         {
@@ -40,6 +30,8 @@ namespace Game.Editor
                 fontStyle = FontStyle.Italic,
                 alignment = TextAnchor.MiddleCenter
             };
+            
+            GameData.Load();
         }
 
         private void OnGUI()
@@ -63,7 +55,8 @@ namespace Game.Editor
             {
                 EditorGUILayout.BeginVertical(GUI.skin.box, GUILayout.Width(285f), GUILayout.ExpandHeight(true));
                 {
-                    DrawBaseSettings();
+                    DrawGameSettings();
+                    DrawDataSettings();
                     DrawBallSettings();
                     DrawColorSettings();
                 }
@@ -78,21 +71,52 @@ namespace Game.Editor
             EditorGUILayout.EndHorizontal();
         }
 
-        private void DrawBaseSettings()
+        private void DrawDataSettings()
         {
-            EditorGUILayout.LabelField("Base settings", _headerStyle);
+            EditorGUILayout.LabelField("Data", _headerStyle);
+            EditorGUILayout.BeginVertical(GUI.skin.box);
+            {
+                GameData.Data.Level = EditorGUILayout.IntField("Level", GameData.Data.Level);
+                GameData.Data.BestScore = EditorGUILayout.IntField("Score", GameData.Data.BestScore);
+
+                EditorGUILayout.BeginHorizontal();
+                {
+                    if (GUILayout.Button("Apply"))
+                    {
+                        GameData.Save();
+                    }
+
+                    if (GUILayout.Button("Reset"))
+                    {
+                        FileUtil.DeleteFileOrDirectory(Application.persistentDataPath + "/" + GameData.FileName);
+                        GameData.Load();
+                    }
+                }
+                EditorGUILayout.EndHorizontal();
+            }
+            EditorGUILayout.EndVertical();
+        }
+
+        private void DrawGameSettings()
+        {
+            EditorGUILayout.LabelField("Game", _headerStyle);
             EditorGUILayout.BeginVertical(GUI.skin.box);
             {
                 EditorGUILayout.PropertyField(_serializedObject.FindProperty("Lives"));
                 EditorGUILayout.PropertyField(_serializedObject.FindProperty("LinesCount"));
                 EditorGUILayout.PropertyField(_serializedObject.FindProperty("LinesVisibleRange"));
+                
+                if (GUILayout.Button("Play"))
+                {
+                    GameEditor.PlayGame();
+                }
             }
             EditorGUILayout.EndVertical();
         }
 
         private void DrawBallSettings()
         {
-            EditorGUILayout.LabelField("Ball settings", _headerStyle);
+            EditorGUILayout.LabelField("Ball", _headerStyle);
             EditorGUILayout.BeginVertical(GUI.skin.box);
             {
                 var ballSettings = _serializedObject.FindProperty("BallSettings");
@@ -190,6 +214,7 @@ namespace Game.Editor
                                     var pathSettings = element.FindPropertyRelative("PathSettings");
                                     EditorGUILayout.LabelField("Path Settings", _labelStyle);
                                     EditorGUILayout.PropertyField(pathSettings.FindPropertyRelative("StartSpeed"));
+                                    EditorGUILayout.PropertyField(pathSettings.FindPropertyRelative("MaxSpeed"));
                                     EditorGUILayout.PropertyField(pathSettings.FindPropertyRelative("SpeedMultiplier"));
                                     EditorGUILayout.PropertyField(pathSettings.FindPropertyRelative("SpeedIncreaseTime"));
                                     EditorGUILayout.PropertyField(pathSettings.FindPropertyRelative("MinPlatformDistance"));

@@ -6,6 +6,7 @@ namespace Game.Data.Settings
     public class PathSettings
     {
         public float StartSpeed;
+        public float MaxSpeed;
         public float SpeedMultiplier;
         public float SpeedIncreaseTime;
         public float MinPlatformDistance;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Framework.Signals;
 using Game.Data;
 using Game.Data.Settings;
 using Game.Main;
@@ -11,9 +12,14 @@ namespace Game.Path
     public class PathController : MonoBehaviour
     {
         private bool _isActive;
+        private float _speed;
+        private float _time;
+        private float _timeSinceLastSpeedIncrease;
         private Spawner _linesSpawner;
         private List<Line> _lines;
         private string _color;
+
+        [SerializeField] private Signal _levelSignal;
 
         private void Awake()
         {
@@ -39,11 +45,17 @@ namespace Game.Path
         public void Activate()
         {
             _isActive = true;
+            _time = 0f;
+            _timeSinceLastSpeedIncrease = Time.time;
+            
+            ApplyStartSpeed(GameController.Instance.GameSession.Level);
+            SignalsManager.Register(_levelSignal.Name, ApplyStartSpeed);
         }
 
         public void Deactivate()
         {
             _isActive = false;
+            SignalsManager.Unregister(_levelSignal.Name, ApplyStartSpeed);
         }
 
         public void ApplyColor(string color)
@@ -89,13 +101,22 @@ namespace Game.Path
                 }
                 else
                 {
-                    var level = GameConfiguration.GetLevelSettings(GameController.Instance.GameSession.Level);
-                    if (level != null)
+                    var levelSettings = GameConfiguration.GetLevelSettings(GameController.Instance.GameSession.Level);
+                    if (levelSettings != null)
                     {
-                        line.Position += Vector3.back * level.PathSettings.StartSpeed * Time.deltaTime;
+                        if (levelSettings.PathSettings.SpeedIncreaseTime > 0f && Time.time - _timeSinceLastSpeedIncrease > levelSettings.PathSettings.SpeedIncreaseTime)
+                        {
+                            _speed = Mathf.Clamp(_speed * (1 + levelSettings.PathSettings.SpeedMultiplier), levelSettings.PathSettings.StartSpeed, levelSettings.PathSettings.MaxSpeed);
+                            _timeSinceLastSpeedIncrease = Time.time;
+                            Debug.Log($"Path speed change: {_speed}");
+                        }
+                        
+                        line.Position += Vector3.back * _speed * Time.deltaTime;
                     }
                 }
             }
+
+            _time += Time.deltaTime;
         }
 
         private void SpawnLine()
@@ -120,6 +141,15 @@ namespace Game.Path
 
                     _lines.Add(line);
                 }
+            }
+        }
+
+        private void ApplyStartSpeed(int level)
+        {
+            var levelSettings = GameConfiguration.GetLevelSettings(level);
+            if (levelSettings != null)
+            {
+                _speed = levelSettings.PathSettings.StartSpeed;
             }
         }
     }

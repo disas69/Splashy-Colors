@@ -13,11 +13,13 @@ namespace Game.Editor
             EditorSceneManager.OpenScene("Assets/Scenes/Main.unity");
             EditorApplication.isPlaying = true;
         }
-
-        [MenuItem("Game/Clear Data", priority = 2)]
-        public static void ClearGameData()
+        
+        [MenuItem("Game/Configuration", priority = 2)]
+        public static void OpenWindow()
         {
-            FileUtil.DeleteFileOrDirectory(Application.persistentDataPath + "/" + GameData.FileName);
+            var window = EditorWindow.GetWindow<GameConfigurationWindow>("Game Configuration");
+            window.minSize = new Vector2(650f, 450f);
+            window.Show();
         }
     }
 }
