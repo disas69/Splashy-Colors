@@ -1,3 +1,4 @@
+using Game.Data;
 using Game.Main;
 using Game.Spawn;
 using UnityEngine;

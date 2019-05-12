@@ -1,8 +1,9 @@
 ﻿using Framework.Editor;
+using Game.Spawn;
 using UnityEditor;
 using UnityEngine;
 
-namespace Game.Spawn.Editor
+namespace Game.Editor
 {
     [CustomEditor(typeof(Spawner))]
     public class SpawnerEditor : CustomEditorBase<Spawner>

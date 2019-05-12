@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: GameConfiguration
   m_EditorClassIdentifier: 
   Lives: 3
-  LinesVisible: 20
-  LinesDeactivationDistance: 10
+  LinesCount: 20
+  LinesVisibleRange: 10
   BallSettings:
     JumpHeight: 2.5
     MoveSpeed: 8
     SmoothSpeed: 0.05
-    XPositionCap: 7
+    XPositionCap: 8
     InCurve:
       serializedVersion: 2
       m_Curve:
@@ -90,3 +90,69 @@ MonoBehaviour:
   - Name: Red
     Color: {r: 0.92941177, g: 0.29803923, b: 0.40392157, a: 1}
     Material: {fileID: 2100000, guid: 25513cbdeedaddb4da38c1b0b67d5b02, type: 2}
+  Levels:
+  - Level: 1
+    Score: 10
+    LineSettings:
+      PlatformWidth: 4
+      MinPlatformsCount: 1
+      MaxPlatformsCount: 1
+    PathSettings:
+      StartSpeed: 5
+      SpeedMultiplier: 0
+      SpeedIncreaseTime: 0
+      MinPlatformDistance: 3
+      MaxPlatformDistance: 3
+      MaxXShift: 2
+  - Level: 2
+    Score: 25
+    LineSettings:
+      PlatformWidth: 4
+      MinPlatformsCount: 1
+      MaxPlatformsCount: 2
+    PathSettings:
+      StartSpeed: 5
+      SpeedMultiplier: 0
+      SpeedIncreaseTime: 0
+      MinPlatformDistance: 3
+      MaxPlatformDistance: 3
+      MaxXShift: 2
+  - Level: 3
+    Score: 50
+    LineSettings:
+      PlatformWidth: 4
+      MinPlatformsCount: 1
+      MaxPlatformsCount: 3
+    PathSettings:
+      StartSpeed: 6
+      SpeedMultiplier: 0
+      SpeedIncreaseTime: 0
+      MinPlatformDistance: 3
+      MaxPlatformDistance: 3
+      MaxXShift: 3
+  - Level: 4
+    Score: 75
+    LineSettings:
+      PlatformWidth: 4
+      MinPlatformsCount: 1
+      MaxPlatformsCount: 3
+    PathSettings:
+      StartSpeed: 7
+      SpeedMultiplier: 0
+      SpeedIncreaseTime: 0
+      MinPlatformDistance: 3
+      MaxPlatformDistance: 3
+      MaxXShift: 3
+  - Level: 5
+    Score: 100
+    LineSettings:
+      PlatformWidth: 4
+      MinPlatformsCount: 1
+      MaxPlatformsCount: 3
+    PathSettings:
+      StartSpeed: 8
+      SpeedMultiplier: 0
+      SpeedIncreaseTime: 0
+      MinPlatformDistance: 4
+      MaxPlatformDistance: 4
+      MaxXShift: 3

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Game.Data;
+using Game.Data.Settings;
 using Game.Main;
 using Game.Spawn;
 using UnityEngine;
@@ -10,15 +12,13 @@ namespace Game.Path
     {
         private bool _isActive;
         private Spawner _linesSpawner;
-        private List<PathLine> _lines;
+        private List<Line> _lines;
         private string _color;
-
-        [SerializeField] private PathSettings _pathSettings;
 
         private void Awake()
         {
             _linesSpawner = GetComponent<Spawner>();
-            _lines = new List<PathLine>();
+            _lines = new List<Line>();
         }
 
         public void ResetPath()
@@ -30,7 +30,7 @@ namespace Game.Path
 
             _lines.Clear();
 
-            for (var i = 0; i < GameConfiguration.Instance.LinesVisible; i++)
+            for (var i = 0; i < GameConfiguration.Instance.LinesCount; i++)
             {
                 SpawnLine();
             }
@@ -56,7 +56,7 @@ namespace Game.Path
             }
         }
 
-        public PathLine GetNextPathLine(PathLine current)
+        public Line GetNextPathLine(Line current)
         {
             var index = _lines.FindIndex(p => p == current);
             if (index + 1 < _lines.Count)
@@ -74,7 +74,7 @@ namespace Game.Path
                 return;
             }
 
-            while (_lines.Count < GameConfiguration.Instance.LinesVisible)
+            while (_lines.Count < GameConfiguration.Instance.LinesCount)
             {
                 SpawnLine();
             }
@@ -82,36 +82,44 @@ namespace Game.Path
             for (var i = _lines.Count - 1; i >= 0; i--)
             {
                 var line = _lines[i];
-                if (line.Position.z < -GameConfiguration.Instance.LinesDeactivationDistance)
+                if (line.Position.z < -GameConfiguration.Instance.LinesVisibleRange)
                 {
                     line.Deactivate();
                     _lines.RemoveAt(i);
                 }
                 else
                 {
-                    line.Position += Vector3.back * _pathSettings.StartSpeed * Time.deltaTime;
+                    var level = GameConfiguration.GetLevelSettings(GameController.Instance.GameSession.Level);
+                    if (level != null)
+                    {
+                        line.Position += Vector3.back * level.PathSettings.StartSpeed * Time.deltaTime;
+                    }
                 }
             }
         }
 
         private void SpawnLine()
         {
-            var line = _linesSpawner.Spawn() as PathLine;
-            if (line != null)
+            var level = GameConfiguration.GetLevelSettings(GameController.Instance.GameSession.Level);
+            if (level != null)
             {
-                var position = Vector3.zero;
-
-                if (_lines.Count > 0)
+                var line = _linesSpawner.Spawn() as Line;
+                if (line != null)
                 {
-                    position = _lines[_lines.Count - 1].transform.position;
-                    position.x = Random.Range(-_pathSettings.MaxXShift, _pathSettings.MaxXShift);
-                    position.z += Random.Range(_pathSettings.MinPlatformDistance, _pathSettings.MaxPlatformDistance);
+                    var position = Vector3.zero;
+
+                    if (_lines.Count > 0)
+                    {
+                        position = _lines[_lines.Count - 1].transform.position;
+                        position.x = Random.Range(-level.PathSettings.MaxXShift, level.PathSettings.MaxXShift);
+                        position.z += Random.Range(level.PathSettings.MinPlatformDistance, level.PathSettings.MaxPlatformDistance);
+                    }
+
+                    line.Position = position;
+                    line.Setup(_lines.Count == 0, _color);
+
+                    _lines.Add(line);
                 }
-
-                line.Position = position;
-                line.Setup(_lines.Count == 0, _color);
-
-                _lines.Add(line);
             }
         }
     }

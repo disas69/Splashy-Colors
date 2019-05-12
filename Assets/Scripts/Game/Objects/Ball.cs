@@ -1,6 +1,8 @@
 ﻿using Framework.Input;
 using Framework.Signals;
 using Framework.Utils.Math;
+using Game.Data;
+using Game.Data.Settings;
 using Game.Main;
 using Game.Path;
 using Game.Spawn;
@@ -16,7 +18,7 @@ namespace Game.Objects
         private bool _isOnPlatform;
         private VectorAverager _dragSpeedAverage;
         private float _screenToWorldScaleFactor;
-        private PathLine _currentPathLine;
+        private Line _currentLine;
         private Vector3 _velocity;
         private bool _dragging;
         private int _pointersCount;
@@ -154,22 +156,22 @@ namespace Game.Objects
                 Mathf.Clamp(newPosition.y, 0f, Settings.JumpHeight), newPosition.z);
         }
 
-        private float GetHalfWay(PathLine nextPathLine)
+        private float GetHalfWay(Line nextLine)
         {
-            return (nextPathLine.Position.z - _currentPathLine.Position.z) / 2f;
+            return (nextLine.Position.z - _currentLine.Position.z) / 2f;
         }
 
-        private PathLine GetNextPathLine()
+        private Line GetNextPathLine()
         {
-            return _path.GetNextPathLine(_currentPathLine);
+            return _path.GetNextPathLine(_currentLine);
         }
 
         private void OnTriggerEnter(Collider otherCollider)
         {
-            var pathLine = otherCollider.GetComponent<PathLine>();
+            var pathLine = otherCollider.GetComponent<Line>();
             if (pathLine != null)
             {
-                _currentPathLine = pathLine;
+                _currentLine = pathLine;
             }
             else
             {

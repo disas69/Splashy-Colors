@@ -1,6 +1,7 @@
 ﻿using System;
+using Game.Spawn;
 
-namespace Game.Spawn
+namespace Game.Data.Settings
 {
     [Serializable]
     public class SpawnerSettings

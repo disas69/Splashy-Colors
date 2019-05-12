@@ -135,39 +135,41 @@
             </e>
           </e>
           <e p="Game" t="Include">
-            <e p="Colors" t="Include">
-              <e p="Editor" t="Include">
-                <e p="ColorSettingsEditor.cs" t="Include" />
+            <e p="Data" t="Include">
+              <e p="GameConfiguration.cs" t="Include" />
+              <e p="GameData.cs" t="Include" />
+              <e p="Settings" t="Include">
+                <e p="BallSettings.cs" t="Include" />
+                <e p="ColorSettings.cs" t="Include" />
+                <e p="LevelSettings.cs" t="Include" />
+                <e p="LineSettings.cs" t="Include" />
+                <e p="PathSettings.cs" t="Include" />
+                <e p="SpawnerSettings.cs" t="Include" />
               </e>
             </e>
+            <e p="Editor" t="Include">
+              <e p="GameConfigurationWindow.cs" t="Include" />
+              <e p="GameEditor.cs" t="Include" />
+              <e p="SpawnerEditor.cs" t="Include" />
+            </e>
             <e p="Main" t="Include">
-              <e p="ColorSettings.cs" t="Include" />
-              <e p="GameConfiguration.cs" t="Include" />
               <e p="GameController.cs" t="Include" />
-              <e p="GameData.cs" t="Include" />
               <e p="GameSession.cs" t="Include" />
               <e p="GameState.cs" t="Include" />
             </e>
             <e p="Objects" t="Include">
               <e p="Ball.cs" t="Include" />
-              <e p="BallSettings.cs" t="Include" />
               <e p="Blot.cs" t="Include" />
               <e p="Platform.cs" t="Include" />
             </e>
             <e p="Path" t="Include">
               <e p="FallZone.cs" t="Include" />
+              <e p="Line.cs" t="Include" />
               <e p="PathController.cs" t="Include" />
-              <e p="PathLine.cs" t="Include" />
-              <e p="PathLineSettings.cs" t="Include" />
-              <e p="PathSettings.cs" t="Include" />
             </e>
             <e p="Spawn" t="Include">
-              <e p="Editor" t="Include">
-                <e p="SpawnerEditor.cs" t="Include" />
-              </e>
               <e p="SpawnableObject.cs" t="Include" />
               <e p="Spawner.cs" t="Include" />
-              <e p="SpawnerSettings.cs" t="Include" />
             </e>
             <e p="UI" t="Include">
               <e p="LivesViewController.cs" t="Include" />

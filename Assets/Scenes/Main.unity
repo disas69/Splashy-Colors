@@ -441,6 +441,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ball: {fileID: 1157714991}
   _path: {fileID: 1303460347}
+  _levelSignal:
+    Name: LevelChange
   _scoreSignal:
     Name: ScoreChange
   _livesSignal:
@@ -617,7 +619,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29ea6a13dbb418345bc66d7c94506f87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pathSettings: {fileID: 11400000, guid: ac238f61ee05b134ab558a31ca9735b5, type: 2}
 --- !u!114 &1303460348
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Game.Main
+namespace Game.Data.Settings
 {
     [Serializable]
     public class ColorSettings

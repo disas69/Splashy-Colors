@@ -14,13 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Keys:
   - BestScore
+  - Level
   LanguagesData:
   - Language: 10
     Strings:
-    - 'best score:'
+    - best score
+    - level {0}
   - Language: 14
     Strings:
-    - 'meilleurs points:'
+    - meilleurs points
+    - niveau {0}
   - Language: 9
     Strings:
-    - 'beste punten:'
+    - beste punten
+    - niveau {0}

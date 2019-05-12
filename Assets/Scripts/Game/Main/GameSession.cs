@@ -1,4 +1,5 @@
 ﻿using Framework.Signals;
+using Game.Data;
 using Game.Objects;
 using Game.Path;
 using UnityEngine;
@@ -7,32 +8,31 @@ namespace Game.Main
 {
     public class GameSession : MonoBehaviour
     {
-        private int _lives;
-        private int _score;
-        private string _color;
-
         [SerializeField] private Ball _ball;
         [SerializeField] private PathController _path;
+        [SerializeField] private Signal _levelSignal;
         [SerializeField] private Signal _scoreSignal;
         [SerializeField] private Signal _livesSignal;
         [SerializeField] private Signal _colorSignal;
 
-        public int Lives => _lives;
-        public int Score => _score;
-        public string Color => _color;
+        public int Lives { get; private set; }
+        public int Level { get; private set; }
+        public int Score { get; private set; }
+        public string Color { get; private set; }
 
         public void ResetSession()
         {
             ApplyColor(GameConfiguration.GetRandomColorName());
             
+            Level = GameData.Data.Level;
             _ball.ResetBall();
             _path.ResetPath();
         }
 
         public void StartSession()
         {
-            _lives = GameConfiguration.Instance.Lives;
-            _score = 0;
+            Lives = GameConfiguration.Instance.Lives;
+            Score = 0;
 
             _ball.Activate();
             _path.Activate();
@@ -43,22 +43,30 @@ namespace Game.Main
             _ball.Deactivate();
             _path.Deactivate();
 
-            GameData.Data.CurrentScore = _score;
+            GameData.Data.CurrentScore = Score;
 
-            if (_score > GameData.Data.BestScore)
+            if (Score > GameData.Data.BestScore)
             {
-                GameData.Data.BestScore = _score;
+                GameData.Data.Level = Level;
+                GameData.Data.BestScore = Score;
                 GameData.Save();
             }
         }
 
-        public void SubtractLive()
+        public void SubtractLive(bool all = false)
         {
-            _lives--;
-
-            if (_lives > 0)
+            if (all)
             {
-                SignalsManager.Broadcast(_livesSignal.Name, _lives);
+                Lives = 0;
+            }
+            else
+            {
+                Lives--;
+            }
+
+            if (Lives > 0)
+            {
+                SignalsManager.Broadcast(_livesSignal.Name, Lives);
             }
             else
             {
@@ -69,16 +77,24 @@ namespace Game.Main
 
         public void AddScorePoints(int scorePoints)
         {
-            _score += scorePoints;
-            SignalsManager.Broadcast(_scoreSignal.Name, _score);
+            Score += scorePoints;
+
+            var level = GameConfiguration.GetLevelByScore(Score);
+            if (level > Level)
+            {
+                Level = level;
+                SignalsManager.Broadcast(_levelSignal.Name, level);
+            }
+            
+            SignalsManager.Broadcast(_scoreSignal.Name, Score);
         }
 
         public void ApplyColor(string color)
         {
-            _color = color;
-            _ball.ApplyColor(_color);
-            _path.ApplyColor(_color);
-            SignalsManager.Broadcast(_colorSignal.Name, _color);
+            Color = color;
+            _ball.ApplyColor(color);
+            _path.ApplyColor(color);
+            SignalsManager.Broadcast(_colorSignal.Name, color);
         }
     }
 }

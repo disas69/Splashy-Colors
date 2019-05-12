@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Game.Data;
 using Game.Main;
 using Game.Objects;
 using Game.Spawn;
@@ -7,12 +8,10 @@ using UnityEngine;
 namespace Game.Path
 {
     [RequireComponent(typeof(Spawner))]
-    public class PathLine : SpawnableObject
+    public class Line : SpawnableObject
     {
         private Spawner _platformSpawner;
         private List<Platform> _platforms;
-
-        [SerializeField] private PathLineSettings _settings;
 
         public Vector3 Position
         {
@@ -39,26 +38,30 @@ namespace Game.Path
 
         public void Setup(bool isFirstPlatform, string color)
         {
-            var count = isFirstPlatform ? 1 : Random.Range(_settings.MinPlatmormsCount, _settings.MaxPlatformsCount + 1);
-            var width = count * _settings.PlatformWidth;
-            var position = Vector3.zero;
-            position.x = -(width / 2f);
-
-            for (var i = 0; i < count; i++)
+            var level = GameConfiguration.GetLevelSettings(GameController.Instance.GameSession.Level);
+            if (level != null)
             {
-                position.x += _settings.PlatformWidth / 2f;
+                var count = isFirstPlatform ? 1 : Random.Range(level.LineSettings.MinPlatformsCount, level.LineSettings.MaxPlatformsCount + 1);
+                var width = count * level.LineSettings.PlatformWidth;
+                var position = Vector3.zero;
+                position.x = -(width / 2f);
 
-                var platform = _platformSpawner.Spawn() as Platform;
-                if (platform != null)
+                for (var i = 0; i < count; i++)
                 {
-                    platform.transform.localPosition = position;
-                    _platforms.Add(platform);
-                }
+                    position.x += level.LineSettings.PlatformWidth / 2f;
 
-                position.x += _settings.PlatformWidth / 2f;
-            }
+                    var platform = _platformSpawner.Spawn() as Platform;
+                    if (platform != null)
+                    {
+                        platform.transform.localPosition = position;
+                        _platforms.Add(platform);
+                    }
+
+                    position.x += level.LineSettings.PlatformWidth / 2f;
+                }
             
-            ApplyColor(color);
+                ApplyColor(color);
+            }
         }
 
         public void ApplyColor(string color)

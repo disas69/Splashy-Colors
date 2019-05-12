@@ -2,11 +2,12 @@
 using Framework.Tools.Data;
 using UnityEngine;
 
-namespace Game.Main
+namespace Game.Data
 {
     [Serializable]
     public class Data
     {
+        public int Level = 1;
         public int CurrentScore;
         public int BestScore;
     }

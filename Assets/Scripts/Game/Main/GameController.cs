@@ -2,6 +2,7 @@
 using Framework.Tools.Gameplay;
 using Framework.Tools.Singleton;
 using Framework.UI;
+using Game.Data;
 using Game.UI;
 using Game.UI.Pages;
 using UnityEngine;

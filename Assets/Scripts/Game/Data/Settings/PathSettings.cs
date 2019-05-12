@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
 
-namespace Game.Path
+namespace Game.Data.Settings
 {
-    [CreateAssetMenu(fileName = "PathSettings", menuName = "Game/PathSettings")]
-    public class PathSettings : ScriptableObject
+    [Serializable]
+    public class PathSettings
     {
         public float StartSpeed;
         public float SpeedMultiplier;

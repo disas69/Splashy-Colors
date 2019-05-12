@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Game.Objects
+namespace Game.Data.Settings
 {
     [Serializable]
     public class BallSettings

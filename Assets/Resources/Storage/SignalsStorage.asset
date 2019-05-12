@@ -18,3 +18,4 @@ MonoBehaviour:
   - ScoreChange
   - LiveChange
   - ColorChange
+  - LevelChange

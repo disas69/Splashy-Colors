@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Framework.Tools.Gameplay;
+using Game.Data.Settings;
 using UnityEngine;
 
 namespace Game.Spawn
