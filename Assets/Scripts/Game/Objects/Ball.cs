@@ -136,7 +136,7 @@ namespace Game.Objects
                 _currentVelocity = Vector2.zero;
             }
 
-            if (_currentVelocity.magnitude > 0.1f)
+            if (_currentVelocity.magnitude > 0.01f)
             {
                 Vector3 worldSpaceDelta = _currentVelocity * GameConfiguration.Instance.BallSettings.MoveSpeed * _screenToWorldScaleFactor;
                 newPosition = Vector3.SmoothDamp(transform.position, transform.position + worldSpaceDelta, ref _velocity, GameConfiguration.Instance.BallSettings.SmoothSpeed);
