@@ -18,6 +18,8 @@ namespace Game.UI
         [SerializeField] private TextMeshProUGUI _score;
         [SerializeField] private Signal _levelSignal;
         [SerializeField] private Signal _scoreSignal;
+        [SerializeField] private Signal _audioSignal;
+        [SerializeField] private string _sound;
 
         public override void OnEnter()
         {
@@ -36,6 +38,7 @@ namespace Game.UI
         private void OnLevelChange(int level)
         {
             _level.text = string.Format(LocalizationManager.GetString("Level"), level);
+            SignalsManager.Broadcast(_audioSignal.Name, _sound);
             NotificationManager.Show(new TextNotification(LocalizationManager.GetString("NewLevel")), 2f);
         }
 

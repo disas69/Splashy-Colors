@@ -206,7 +206,7 @@ MonoBehaviour:
   _colorChanger: {fileID: 4143148698315438590}
   _audioSignal:
     Name: PlayAudio
-  _soundName: jump
+  _soundName: slap
 --- !u!65 &2037654179894979712
 BoxCollider:
   m_ObjectHideFlags: 0

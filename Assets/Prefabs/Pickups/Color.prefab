@@ -146,6 +146,9 @@ MonoBehaviour:
   _renderer: {fileID: 1070564780083525347}
   _particleSystem: {fileID: 8092260053529501518}
   _splashMaterial: {fileID: 2100000, guid: 3c8589b57d46e3c4f989a2b5d0d2ab93, type: 2}
+  _audioSignal:
+    Name: PlayAudio
+  _sound: color_splash
 --- !u!65 &6108624655446885382
 BoxCollider:
   m_ObjectHideFlags: 0

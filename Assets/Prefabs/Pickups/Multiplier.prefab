@@ -49,6 +49,9 @@ MonoBehaviour:
   _defaultRotation: {x: 0, y: 0, z: 0}
   _defaultScale: {x: 1, y: 1, z: 1}
   _text: {fileID: 5371127462387114363}
+  _audioSignal:
+    Name: PlayAudio
+  _sound: multiplier
 --- !u!65 &3426474531531008737
 BoxCollider:
   m_ObjectHideFlags: 0

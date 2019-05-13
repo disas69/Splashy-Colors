@@ -1,3 +1,4 @@
+using Framework.Signals;
 using Game.Data;
 using Game.Main;
 using TMPro;
@@ -10,6 +11,8 @@ namespace Game.Pickups
         private int _multiplier;
 
         [SerializeField] private TextMeshPro _text;
+        [SerializeField] private Signal _audioSignal;
+        [SerializeField] private string _sound;
 
         public override void Activate()
         {
@@ -24,6 +27,8 @@ namespace Game.Pickups
         public override void Trigger()
         {
             base.Trigger();
+            
+            SignalsManager.Broadcast(_audioSignal.Name, _sound);
             GameController.Instance.GameSession.ApplyMultiplier(_multiplier);
             Debug.Log("Trigger Multiplier");
         }

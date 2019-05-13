@@ -13,7 +13,13 @@ MonoBehaviour:
   m_Name: AudioStorage
   m_EditorClassIdentifier: 
   AudioClips:
-  - Key: fail
-    AudioClip: {fileID: 8300000, guid: 558358f0058325449a1a13506ecfaaba, type: 3}
-  - Key: jump
-    AudioClip: {fileID: 8300000, guid: b9d6ed3d33f3313409925d56726ff10b, type: 3}
+  - Key: slap
+    AudioClip: {fileID: 8300000, guid: d6761fc8e878778429dd6fde7e9b6684, type: 3}
+  - Key: multiplier
+    AudioClip: {fileID: 8300000, guid: 9eb93a4395b170b47bf4736770c976f0, type: 3}
+  - Key: color_splash
+    AudioClip: {fileID: 8300000, guid: 415e775ac3da83141855fe8351c7a866, type: 3}
+  - Key: new_level
+    AudioClip: {fileID: 8300000, guid: ee060b44f20cd21448330760793438f5, type: 3}
+  - Key: splash
+    AudioClip: {fileID: 8300000, guid: b9ccecb427d736d4f80ca34c4dfae9d7, type: 3}

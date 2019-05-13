@@ -60,7 +60,7 @@ MonoBehaviour:
     Name: StateChange
   _audioSignal:
     Name: PlayAudio
-  _failSound: fail
+  _failSound: splash
 --- !u!114 &3496012031492384908
 MonoBehaviour:
   m_ObjectHideFlags: 0
