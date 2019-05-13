@@ -24,7 +24,7 @@ namespace Game.Spawn
         {
             _activeObjects = new List<SpawnableObject>();
 
-            if (_activateOnAwake)
+            if (_activateOnAwake && _settings != null)
             {
                 Activate(_settings);
             }
@@ -34,6 +34,7 @@ namespace Game.Spawn
         {
             if (_objectsPool == null)
             {
+                _settings = spawnerSettings;
                 _objectsPool = new Pool<SpawnableObject>(spawnerSettings.ObjectPrefab, transform, spawnerSettings.PoolCapacity);
             }
         }

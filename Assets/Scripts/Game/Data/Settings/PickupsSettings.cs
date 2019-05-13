@@ -7,7 +7,8 @@ namespace Game.Data.Settings
     [Serializable]
     public class PickupsSettings
     {
-        public PickupType Type;
+        public string Name;
+        public Pickup Prefab;
         [Range(0, 1)]
         public float Chance;
     }

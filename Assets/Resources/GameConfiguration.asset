@@ -93,11 +93,16 @@ MonoBehaviour:
     Color: {r: 0.92941177, g: 0.29803923, b: 0.40392157, a: 1}
     Material: {fileID: 2100000, guid: 25513cbdeedaddb4da38c1b0b67d5b02, type: 2}
   Pickups:
-  - Type: 2
+  - Name: Multiplier
+    Prefab: {fileID: 661535624268601421, guid: e4c04e311c6babf4d987e82a140ca030, type: 3}
     Chance: 0.3
-  - Type: 1
+  - Name: Obstacle
+    Prefab: {fileID: 3000626034597561966, guid: 9ac2174df93486f448db9203d3c3316d,
+      type: 3}
     Chance: 0.7
-  - Type: 0
+  - Name: Color
+    Prefab: {fileID: 1918505166545734043, guid: a5819075a9cb48641ad4ab968845aa82,
+      type: 3}
     Chance: 1
   Levels:
   - Level: 1

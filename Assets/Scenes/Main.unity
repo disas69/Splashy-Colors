@@ -122,9 +122,6 @@ GameObject:
   m_Component:
   - component: {fileID: 87118567}
   - component: {fileID: 87118571}
-  - component: {fileID: 87118570}
-  - component: {fileID: 87118569}
-  - component: {fileID: 87118568}
   m_Layer: 0
   m_Name: Pickups
   m_TagString: Untagged
@@ -146,57 +143,6 @@ Transform:
   m_Father: {fileID: 733076023}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &87118568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 87118566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35ccf08386f1d0648a375ddd59bff341, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _activateOnAwake: 1
-  _settings:
-    ObjectPrefab: {fileID: 661535624268601421, guid: e4c04e311c6babf4d987e82a140ca030,
-      type: 3}
-    PoolCapacity: 3
---- !u!114 &87118569
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 87118566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35ccf08386f1d0648a375ddd59bff341, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _activateOnAwake: 1
-  _settings:
-    ObjectPrefab: {fileID: 3000626034597561966, guid: 9ac2174df93486f448db9203d3c3316d,
-      type: 3}
-    PoolCapacity: 3
---- !u!114 &87118570
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 87118566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35ccf08386f1d0648a375ddd59bff341, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _activateOnAwake: 1
-  _settings:
-    ObjectPrefab: {fileID: 1918505166545734043, guid: a5819075a9cb48641ad4ab968845aa82,
-      type: 3}
-    PoolCapacity: 3
 --- !u!114 &87118571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,13 +155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68b2c4a09349828c7b656b46d8f71d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Spawners:
-  - Type: 0
-    Spawner: {fileID: 87118570}
-  - Type: 1
-    Spawner: {fileID: 87118569}
-  - Type: 2
-    Spawner: {fileID: 87118568}
+  _poolsCapacity: 3
 --- !u!1 &99445528
 GameObject:
   m_ObjectHideFlags: 0

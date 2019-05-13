@@ -199,7 +199,8 @@ namespace Game.Editor
 
                         EditorGUILayout.BeginVertical();
                         {
-                            EditorGUILayout.PropertyField(element.FindPropertyRelative("Type"));
+                            EditorGUILayout.PropertyField(element.FindPropertyRelative("Name"));
+                            EditorGUILayout.PropertyField(element.FindPropertyRelative("Prefab"));
                             EditorGUILayout.PropertyField(element.FindPropertyRelative("Chance"));
                         }
                         EditorGUILayout.EndVertical();
