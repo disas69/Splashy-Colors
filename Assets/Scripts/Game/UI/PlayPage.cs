@@ -1,12 +1,15 @@
 ﻿using Framework.Localization;
 using Framework.Signals;
+using Framework.UI.Notifications;
+using Framework.UI.Notifications.Model;
 using Framework.UI.Structure.Base.Model;
 using Framework.UI.Structure.Base.View;
 using Game.Main;
+using Game.Utils;
 using TMPro;
 using UnityEngine;
 
-namespace Game.UI.Pages
+namespace Game.UI
 {
     public class PlayPage : Page<PageModel>
     {
@@ -20,10 +23,12 @@ namespace Game.UI.Pages
         {
             base.OnEnter();
 
-            _livesViewController.OnEnter();
+            _livesViewController.Subscribe();
+            _livesViewController.UpdateLives(GameController.Instance.GameSession.Lives);
+            
             _level.text = string.Format(LocalizationManager.GetString("Level"), GameController.Instance.GameSession.Level);
             _score.text = GameController.Instance.GameSession.Score.ToString();
-            
+
             SignalsManager.Register(_levelSignal.Name, OnLevelChange);
             SignalsManager.Register(_scoreSignal.Name, OnScoreChanged);
         }
@@ -31,6 +36,7 @@ namespace Game.UI.Pages
         private void OnLevelChange(int level)
         {
             _level.text = string.Format(LocalizationManager.GetString("Level"), level);
+            NotificationManager.Show(new TextNotification(LocalizationManager.GetString("NewLevel")), 2f);
         }
 
         private void OnScoreChanged(int score)
@@ -41,9 +47,9 @@ namespace Game.UI.Pages
         public override void OnExit()
         {
             base.OnExit();
-            
-            _livesViewController.OnExit();
-            
+
+            _livesViewController.Unsubscribe();
+
             SignalsManager.Unregister(_levelSignal.Name, OnLevelChange);
             SignalsManager.Unregister(_scoreSignal.Name, OnScoreChanged);
         }

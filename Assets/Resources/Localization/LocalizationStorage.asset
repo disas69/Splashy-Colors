@@ -15,16 +15,28 @@ MonoBehaviour:
   Keys:
   - BestScore
   - Level
+  - NewLevel
+  - Ouch
+  - Step
   LanguagesData:
   - Language: 10
     Strings:
     - best score
     - level {0}
+    - new level
+    - ouch! watch out!
+    - watch your step!
   - Language: 14
     Strings:
     - meilleurs points
     - niveau {0}
+    - nouveau niveau
+    - aie! fais attention!
+    - attention a la marche!
   - Language: 9
     Strings:
     - beste punten
     - niveau {0}
+    - nieuw niveau
+    - ouch! kijk uit!
+    - kijk uit waar je loopt!

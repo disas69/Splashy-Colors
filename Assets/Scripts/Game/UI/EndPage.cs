@@ -5,7 +5,7 @@ using Framework.UI.Structure.Base.View;
 using Game.Main;
 using UnityEngine;
 
-namespace Game.UI.Pages
+namespace Game.UI
 {
     public class EndPage : Page<PageModel>
     {

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using Framework.Signals;
 using Game.Data;
-using Game.Data.Settings;
 using Game.Main;
 using Game.Pickups;
 using Game.Spawn;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Game.Path
 {
@@ -31,7 +31,7 @@ namespace Game.Path
 
         public void ResetPath()
         {
-            for (int i = 0; i < _lines.Count; i++)
+            for (var i = 0; i < _lines.Count; i++)
             {
                 _lines[i].Deactivate();
             }
@@ -81,6 +81,21 @@ namespace Game.Path
             return null;
         }
 
+        private void OnLevelChange(int level)
+        {
+            _linesStep = 0;
+            ApplyStartSpeed(level);
+        }
+
+        private void ApplyStartSpeed(int level)
+        {
+            var levelSettings = GameConfiguration.GetLevelSettings(level);
+            if (levelSettings != null)
+            {
+                _speed = levelSettings.PathSettings.StartSpeed;
+            }
+        }
+
         private void Update()
         {
             if (!_isActive)
@@ -110,7 +125,7 @@ namespace Game.Path
                         {
                             _speed = Mathf.Clamp(_speed * (1 + levelSettings.PathSettings.SpeedMultiplier), levelSettings.PathSettings.StartSpeed, levelSettings.PathSettings.MaxSpeed);
                             _time = Time.time;
-                            Debug.Log($"Path speed change: {_speed}");
+                            Debug.Log(string.Format("Path speed change: {0}", _speed));
                         }
                         
                         line.Position += Vector3.back * _speed * Time.deltaTime;
@@ -152,21 +167,6 @@ namespace Game.Path
 
                     _lines.Add(line);
                 }
-            }
-        }
-
-        private void OnLevelChange(int level)
-        {
-            _linesStep = 0;
-            ApplyStartSpeed(level);
-        }
-
-        private void ApplyStartSpeed(int level)
-        {
-            var levelSettings = GameConfiguration.GetLevelSettings(level);
-            if (levelSettings != null)
-            {
-                _speed = levelSettings.PathSettings.StartSpeed;
             }
         }
     }

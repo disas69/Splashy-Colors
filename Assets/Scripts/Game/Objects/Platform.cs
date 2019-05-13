@@ -1,7 +1,6 @@
 ﻿using Framework.Signals;
 using Game.Data;
 using Game.Main;
-using Game.Pickups;
 using Game.Spawn;
 using Game.Utils;
 using UnityEngine;
@@ -12,15 +11,18 @@ namespace Game.Objects
     public class Platform : SpawnableObject
     {
         private Animator _animator;
-        private string _color;
 
         [SerializeField] private MeshRenderer _renderer;
         [SerializeField] private ColorChanger _colorChanger;
         [SerializeField] private Signal _audioSignal;
         [SerializeField] private string _soundName;
 
-        public Transform BaseTransform => _renderer.gameObject.transform;
-        public string Color => _color;
+        public Transform BaseTransform
+        {
+            get { return _renderer.gameObject.transform; }
+        }
+
+        public string Color { get; private set; }
 
         private void Awake()
         {
@@ -38,31 +40,21 @@ namespace Game.Objects
 
         public void ApplyColor(string color)
         {
-            _color = color;
+            Color = color;
             _colorChanger.ChangeColor(GameConfiguration.GetMaterial(color), GameConfiguration.Instance.ColorChangeTime);
         }
 
         public override void Deactivate()
         {
-            var blots = GetComponentsInChildren<Blot>();
+            var spawnableObjects = GetComponentsInChildren<SpawnableObject>();
 
-            for (var i = 0; i < blots.Length; i++)
+            for (var i = 0; i < spawnableObjects.Length; i++)
             {
-                blots[i].Deactivate();
-            }
-
-            var hints = GetComponentsInChildren<Hint>();
-
-            for (var i = 0; i < hints.Length; i++)
-            {
-                hints[i].Deactivate();
-            }
-
-            var pickups = GetComponentsInChildren<Pickup>();
-
-            for (var i = 0; i < pickups.Length; i++)
-            {
-                pickups[i].Deactivate();
+                var spawnableObject = spawnableObjects[i];
+                if (spawnableObject != this)
+                {
+                    spawnableObject.Deactivate();
+                }
             }
             
             base.Deactivate();

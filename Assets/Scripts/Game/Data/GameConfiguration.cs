@@ -3,6 +3,7 @@ using Framework.Attributes;
 using Framework.Tools.Singleton;
 using Game.Data.Settings;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Game.Data
 {
@@ -10,7 +11,8 @@ namespace Game.Data
     [CreateAssetMenu(fileName = "GameConfiguration", menuName = "Game/GameConfiguration")]
     public class GameConfiguration : ScriptableSingleton<GameConfiguration>
     {
-        [Range(1, 5)] public int Lives;
+        [Range(1, 5)] 
+        public int Lives;
         public int LinesCount;
         public float LinesVisibleRange;
         public float ColorChangeTime;
@@ -39,7 +41,7 @@ namespace Game.Data
                 return settings.Color;
             }
 
-            Debug.LogError($"Failed to find color by name: {colorName}");
+            Debug.LogError(string.Format("Failed to find color by name: {0}", colorName));
             return Color.white;
         }
 
@@ -51,7 +53,7 @@ namespace Game.Data
                 return settings.Material;
             }
 
-            Debug.LogError($"Failed to find material by name: {colorName}");
+            Debug.LogError(string.Format("Failed to find material by name: {0}", colorName));
             return null;
         }
 
@@ -68,7 +70,7 @@ namespace Game.Data
                 return Instance.Levels[Instance.Levels.Count - 1];
             }
 
-            Debug.LogError($"Failed to find level settings for level: {level}");
+            Debug.LogError(string.Format("Failed to find level settings for level: {0}", level));
             return null;
         }
         
@@ -85,7 +87,7 @@ namespace Game.Data
                 return Instance.Levels[Instance.Levels.Count - 1].Level;
             }
 
-            Debug.LogError($"Failed to find level for score: {score}");
+            Debug.LogError(string.Format("Failed to find level for score: {0}", score));
             return 1;
         }
     }

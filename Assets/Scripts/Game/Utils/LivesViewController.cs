@@ -6,7 +6,7 @@ using Game.Spawn;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Game.UI
+namespace Game.Utils
 {
     [RequireComponent(typeof(Spawner))]
     public class LivesViewController : MonoBehaviour
@@ -23,15 +23,19 @@ namespace Game.UI
             _livesViewSpawner = GetComponent<Spawner>();
         }
 
-        public void OnEnter()
-        {
-            UpdateLives(GameController.Instance.GameSession.Lives);
-            
+        public void Subscribe()
+        {            
             SignalsManager.Register(_livesSignal.Name, UpdateLives);
             SignalsManager.Register(_colorSignal.Name, ApplyColor);
         }
 
-        private void UpdateLives(int livesCount)
+        public void Unsubscribe()
+        {
+            SignalsManager.Unregister(_livesSignal.Name, UpdateLives);
+            SignalsManager.Unregister(_colorSignal.Name, ApplyColor);
+        }
+
+        public void UpdateLives(int livesCount)
         {
             for (var i = 0; i < _activeLives.Count; i++)
             {
@@ -65,12 +69,6 @@ namespace Game.UI
                     image.color = newColor;
                 }
             }
-        }
-
-        public void OnExit()
-        {
-            SignalsManager.Unregister(_livesSignal.Name, UpdateLives);
-            SignalsManager.Unregister(_colorSignal.Name, ApplyColor);
         }
     }
 }

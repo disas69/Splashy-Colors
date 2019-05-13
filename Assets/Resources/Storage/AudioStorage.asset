@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AudioStorage
   m_EditorClassIdentifier: 
   AudioClips:
-  - Key: tap
+  - Key: fail
     AudioClip: {fileID: 8300000, guid: 558358f0058325449a1a13506ecfaaba, type: 3}
-  - Key: pick
+  - Key: jump
     AudioClip: {fileID: 8300000, guid: b9d6ed3d33f3313409925d56726ff10b, type: 3}

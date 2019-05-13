@@ -4,7 +4,6 @@ using Framework.Tools.Singleton;
 using Framework.UI;
 using Game.Data;
 using Game.UI;
-using Game.UI.Pages;
 using UnityEngine;
 
 namespace Game.Main
@@ -12,16 +11,19 @@ namespace Game.Main
     [RequireComponent(typeof(GameSession))]
     public class GameController : MonoSingleton<GameController>
     {
-        private GameSession _gameSession;
         private StateMachine<GameState> _stateMachine;
 
-        public GameSession GameSession => _gameSession;
-        public GameState GameState => _stateMachine.CurrentState;
+        public GameSession GameSession { get; private set; }
+
+        public GameState GameState
+        {
+            get { return _stateMachine.CurrentState; }
+        }
 
         protected override void Awake()
         {
             base.Awake();
-            _gameSession = GetComponent<GameSession>();
+            GameSession = GetComponent<GameSession>();
         }
 
         private void Start()
@@ -52,19 +54,19 @@ namespace Game.Main
 
         private void ActivateStartState()
         {
-            _gameSession.ResetSession();
+            GameSession.ResetSession();
             NavigationManager.Instance.OpenScreen<StartPage>();
         }
 
         private void ActivatePlayState()
         {
-            _gameSession.StartSession();
+            GameSession.StartSession();
             NavigationManager.Instance.OpenScreen<PlayPage>();
         }
 
         private void ActivateEndState()
         {
-            _gameSession.StopSession();
+            GameSession.StopSession();
             NavigationManager.Instance.OpenScreen<EndPage>();
         }
 

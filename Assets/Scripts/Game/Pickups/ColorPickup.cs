@@ -12,12 +12,8 @@ namespace Game.Pickups
         [SerializeField] private ParticleSystem _particleSystem;
         [SerializeField] private Material _splashMaterial;
 
-        public override PickupType Type => PickupType.Color;
-
         public override void Activate()
         {
-            base.Activate();
-
             _renderer.enabled = true;
             _color = GameConfiguration.GetRandomColorName();
             _renderer.sharedMaterial = GameConfiguration.GetMaterial(_color);

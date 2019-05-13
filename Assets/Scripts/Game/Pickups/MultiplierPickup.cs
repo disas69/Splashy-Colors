@@ -11,17 +11,13 @@ namespace Game.Pickups
 
         [SerializeField] private TextMeshPro _text;
 
-        public override PickupType Type => PickupType.Multiplier;
-
         public override void Activate()
         {
-            base.Activate();
-            
             var level = GameConfiguration.GetLevelSettings(GameController.Instance.GameSession.Level);
             if (level != null)
             {
                 _multiplier = level.LineSettings.ScoreMultiplier;
-                _text.text = $"x{_multiplier}";
+                _text.text = string.Format("x{0}", _multiplier);
             }
         }
 

@@ -12,7 +12,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Game.UI.Pages
+namespace Game.UI
 {
     public class StartPage : Page<PageModel>
     {
@@ -28,7 +28,7 @@ namespace Game.UI.Pages
         public override void OnEnter()
         {
             base.OnEnter();
-            InputEventProvider.Instance.PointerDown += OnPointerPown;
+            InputEventProvider.Instance.PointerDown += OnPointerDown;
 
             if (GameData.Data.BestScore > 0)
             {
@@ -65,7 +65,7 @@ namespace Game.UI.Pages
             _overlayTransitionCoroutine = null;
         }
 
-        private void OnPointerPown(PointerEventData eventData)
+        private void OnPointerDown(PointerEventData eventData)
         {
             SignalsManager.Broadcast(_stateChangeSignal.Name, GameState.Play.ToString());
         }
@@ -74,7 +74,7 @@ namespace Game.UI.Pages
         {
             _overlay.gameObject.SetActive(false);
             this.SafeStopCoroutine(_overlayTransitionCoroutine);
-            InputEventProvider.Instance.PointerDown -= OnPointerPown;
+            InputEventProvider.Instance.PointerDown -= OnPointerDown;
             base.OnExit();
         }
     }

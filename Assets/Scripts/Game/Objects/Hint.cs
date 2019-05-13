@@ -1,4 +1,3 @@
-using Game.Main;
 using Game.Spawn;
 using TMPro;
 using UnityEngine;
@@ -22,7 +21,7 @@ namespace Game.Objects
             transform.localScale = _defaultScale;
             transform.SetParent(parent, true);
 
-            _text.text = $"+{score}";
+            _text.text = string.Format("+{0}", score);
             _animation.Play();
         }
     }

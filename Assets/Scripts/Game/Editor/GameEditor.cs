@@ -1,5 +1,4 @@
-﻿using Game.Data;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 

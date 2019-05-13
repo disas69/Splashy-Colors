@@ -1,15 +1,15 @@
-﻿using System.Collections;
-using Framework.Extensions;
+﻿using Framework.Extensions;
 using Framework.Input;
+using Framework.Localization;
 using Framework.Signals;
+using Framework.UI.Notifications;
+using Framework.UI.Notifications.Model;
 using Framework.Utils.Math;
 using Game.Data;
-using Game.Data.Settings;
 using Game.Main;
 using Game.Path;
 using Game.Pickups;
 using Game.Spawn;
-using Game.UI;
 using Game.Utils;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -41,15 +41,13 @@ namespace Game.Objects
         [SerializeField] private ColorChanger _colorChanger;
         [SerializeField] private Signal _stateSignal;
         [SerializeField] private Signal _audioSignal;
-
-        public string Color => _color;
-        public BallSettings Settings => GameConfiguration.Instance.BallSettings;
+        [SerializeField] private string _failSound;
 
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
-            _dragSpeedAverage = new VectorAverager(0.1f);
-            _screenToWorldScaleFactor = 2 * Camera.main.orthographicSize / Camera.main.pixelHeight;
+            _dragSpeedAverage = new VectorAverager(0.5f);
+            _screenToWorldScaleFactor = 2f * Camera.main.orthographicSize / Camera.main.pixelHeight;
 
             _inputProvider.PointerDown += OnPointerDown;
             _inputProvider.PointerUp += OnPointerUp;
@@ -82,7 +80,8 @@ namespace Game.Objects
         public void BlowUp()
         {
             _renderer.enabled = false;
-            SignalsManager.Broadcast(_audioSignal.Name, "tap");
+            SignalsManager.Broadcast(_audioSignal.Name, _failSound);
+            NotificationManager.Show(new TextNotification(LocalizationManager.GetString("Ouch")), 2f);
         }
 
         public void ApplyColor(string color)
@@ -90,7 +89,6 @@ namespace Game.Objects
             _isInvincible = true;
             _color = color;
             _colorChanger.ChangeColor(GameConfiguration.GetMaterial(color), GameConfiguration.Instance.ColorChangeTime);
-
             this.WaitForSeconds(GameConfiguration.Instance.BallSettings.InvincibilityTime, () => _isInvincible = false);
         }
 
@@ -138,10 +136,10 @@ namespace Game.Objects
                 _currentVelocity = Vector2.zero;
             }
 
-            if (_currentVelocity.magnitude > 0.01f)
+            if (_currentVelocity.magnitude > 0.1f)
             {
-                Vector3 worldSpaceDelta = _currentVelocity * Settings.MoveSpeed * _screenToWorldScaleFactor;
-                newPosition = Vector3.SmoothDamp(transform.position, transform.position + worldSpaceDelta, ref _velocity, Settings.SmoothSpeed);
+                Vector3 worldSpaceDelta = _currentVelocity * GameConfiguration.Instance.BallSettings.MoveSpeed * _screenToWorldScaleFactor;
+                newPosition = Vector3.SmoothDamp(transform.position, transform.position + worldSpaceDelta, ref _velocity, GameConfiguration.Instance.BallSettings.SmoothSpeed);
             }
 
             _lastDragDelta = Vector2.zero;
@@ -155,16 +153,16 @@ namespace Game.Objects
                 if (distance > halfWay)
                 {
                     distance -= halfWay;
-                    newPosition.y = Mathf.Lerp(Settings.JumpHeight, 0f, Settings.InCurve.Evaluate(distance / halfWay));
+                    newPosition.y = Mathf.Lerp(GameConfiguration.Instance.BallSettings.JumpHeight, 0f, GameConfiguration.Instance.BallSettings.InCurve.Evaluate(distance / halfWay));
                 }
                 else
                 {
-                    newPosition.y = Mathf.Lerp(0f, Settings.JumpHeight, Settings.OutCurve.Evaluate(distance / halfWay));
+                    newPosition.y = Mathf.Lerp(0f, GameConfiguration.Instance.BallSettings.JumpHeight, GameConfiguration.Instance.BallSettings.OutCurve.Evaluate(distance / halfWay));
                 }
             }
 
-            transform.position = new Vector3(Mathf.Clamp(newPosition.x, -Settings.XPositionCap, Settings.XPositionCap),
-                Mathf.Clamp(newPosition.y, 0f, Settings.JumpHeight), newPosition.z);
+            transform.position = new Vector3(Mathf.Clamp(newPosition.x, -GameConfiguration.Instance.BallSettings.XPositionCap, GameConfiguration.Instance.BallSettings.XPositionCap), 
+                Mathf.Clamp(newPosition.y, 0f, GameConfiguration.Instance.BallSettings.JumpHeight), newPosition.z);
         }
 
         private float GetHalfWay(Line nextLine)
@@ -183,32 +181,29 @@ namespace Game.Objects
             if (pathLine != null)
             {
                 _currentLine = pathLine;
-            }
-            else
-            {
-                var platform = otherCollider.GetComponent<Platform>();
-                if (platform != null)
-                {
-                    _isOnPlatform = true;
-                    ProcessPlatform(platform);
-                }
-                else
-                {
-                    var fallZone = otherCollider.GetComponent<FallZone>();
-                    if (fallZone != null && !_isOnPlatform)
-                    {
-                        _rigidbody.useGravity = true;
-                        _rigidbody.isKinematic = false;
-                        _rigidbody.AddForce(Vector3.down * Settings.MoveSpeed, ForceMode.Impulse);
-                        SignalsManager.Broadcast(_stateSignal.Name, GameState.End.ToString());
-                    }
-                }
+                return;
             }
 
+            var platform = otherCollider.GetComponent<Platform>();
+            if (platform != null)
+            {
+                _isOnPlatform = true;
+                ProcessPlatform(platform);
+                return;
+            }
+            
             var pickup = otherCollider.GetComponent<Pickup>();
             if (pickup != null)
             {
                 pickup.Trigger();
+                return;
+            }
+
+            var fallZone = otherCollider.GetComponent<FallZone>();
+            if (fallZone != null && !_isOnPlatform)
+            {
+                ProcessFall();
+                SignalsManager.Broadcast(_stateSignal.Name, GameState.End.ToString());
             }
         }
 
@@ -232,7 +227,7 @@ namespace Game.Objects
                     {
                         var score = level.LineSettings.PlatformScore * GameController.Instance.GameSession.ScoreMultiplier;
                         GameController.Instance.GameSession.AddScorePoints(score);
-                        
+
                         var hint = _hintsSpawner.Spawn() as Hint;
                         if (hint != null)
                         {
@@ -248,14 +243,22 @@ namespace Game.Objects
                     GameController.Instance.GameSession.SubtractLive();
                 }
             }
-            
+
             var blot = _blotSpawner.Spawn() as Blot;
             if (blot != null)
             {
                 blot.Place(transform.position, platform.BaseTransform, _color);
             }
-            
+
             platform.Trigger();
+        }
+
+        private void ProcessFall()
+        {
+            _rigidbody.useGravity = true;
+            _rigidbody.isKinematic = false;
+            _rigidbody.AddForce(Vector3.down * GameConfiguration.Instance.BallSettings.MoveSpeed, ForceMode.Impulse);
+            NotificationManager.Show(new TextNotification(LocalizationManager.GetString("Step")), 2f);
         }
 
         private void OnDestroy()

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Game.Data;
 using Game.Data.Settings;
-using Game.Main;
 using Game.Objects;
 using Game.Pickups;
 using Game.Spawn;

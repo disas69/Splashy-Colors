@@ -171,7 +171,7 @@ GameObject:
   - component: {fileID: 8092260053529501518}
   - component: {fileID: 8091817459870871270}
   m_Layer: 0
-  m_Name: ColorPickupSplash
+  m_Name: ColorSplash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -10,8 +10,6 @@ namespace Game.Pickups
         [SerializeField] private Vector3 _defaultRotation;
         [SerializeField] private Vector3 _defaultScale;
 
-        public abstract PickupType Type { get; }
-
         public void Place(Vector3 position, Transform parent)
         {
             var newPosition = _defaultPosition;
@@ -23,9 +21,7 @@ namespace Game.Pickups
             transform.SetParent(parent, true);
         }
 
-        public virtual void Activate()
-        {
-        }
+        public abstract void Activate();
 
         public virtual void Trigger()
         {

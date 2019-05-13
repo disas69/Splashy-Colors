@@ -13,12 +13,8 @@ namespace Game.Pickups
         [SerializeField] private Material _splashMaterial;
         [SerializeField] private Signal _colorSignal;
         
-        public override PickupType Type => PickupType.Obstacle;
-
         public override void Activate()
         {
-            base.Activate();
-
             UpdateColor(GameController.Instance.GameSession.Color);
             SignalsManager.Register(_colorSignal.Name, UpdateColor);
         }
