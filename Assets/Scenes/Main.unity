@@ -990,7 +990,7 @@ MonoBehaviour:
   _followX: 1
   _followY: 0
   _followZ: 0
-  _moveSmoothing: 0.2
+  _moveSmoothing: 0.15
 --- !u!1 &2022806560
 GameObject:
   m_ObjectHideFlags: 0

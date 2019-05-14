@@ -18,7 +18,7 @@ MonoBehaviour:
   ColorChangeTime: 2
   BallSettings:
     JumpHeight: 2.5
-    MoveSpeed: 8
+    MoveSpeed: 12
     SmoothSpeed: 0.05
     XPositionCap: 8
     InvincibilityTime: 0.5
@@ -106,7 +106,7 @@ MonoBehaviour:
     Chance: 1
   Levels:
   - Level: 1
-    Score: 20
+    Score: 25
     LineSettings:
       PlatformScore: 1
       ScoreMultiplier: 2
@@ -121,25 +121,8 @@ MonoBehaviour:
       SpeedIncreaseTime: 0
       MinPlatformDistance: 3
       MaxPlatformDistance: 3
-      MaxXShift: 3
+      MaxXShift: 4
   - Level: 2
-    Score: 50
-    LineSettings:
-      PlatformScore: 1
-      ScoreMultiplier: 2
-      PickupSpawnStep: 10
-      PlatformWidth: 4
-      MinPlatformsCount: 1
-      MaxPlatformsCount: 2
-    PathSettings:
-      StartSpeed: 5
-      MaxSpeed: 5
-      SpeedMultiplier: 0
-      SpeedIncreaseTime: 0
-      MinPlatformDistance: 3
-      MaxPlatformDistance: 3
-      MaxXShift: 3
-  - Level: 3
     Score: 100
     LineSettings:
       PlatformScore: 1
@@ -147,55 +130,21 @@ MonoBehaviour:
       PickupSpawnStep: 8
       PlatformWidth: 4
       MinPlatformsCount: 1
-      MaxPlatformsCount: 3
+      MaxPlatformsCount: 2
     PathSettings:
-      StartSpeed: 5
-      MaxSpeed: 5
+      StartSpeed: 6
+      MaxSpeed: 6
       SpeedMultiplier: 0
       SpeedIncreaseTime: 0
       MinPlatformDistance: 3
       MaxPlatformDistance: 3
-      MaxXShift: 3
-  - Level: 4
-    Score: 200
+      MaxXShift: 4
+  - Level: 3
+    Score: 250
     LineSettings:
       PlatformScore: 1
       ScoreMultiplier: 2
-      PickupSpawnStep: 5
-      PlatformWidth: 4
-      MinPlatformsCount: 1
-      MaxPlatformsCount: 3
-    PathSettings:
-      StartSpeed: 6
-      MaxSpeed: 6
-      SpeedMultiplier: 0
-      SpeedIncreaseTime: 0
-      MinPlatformDistance: 4
-      MaxPlatformDistance: 4
-      MaxXShift: 4
-  - Level: 5
-    Score: 500
-    LineSettings:
-      PlatformScore: 1
-      ScoreMultiplier: 2
-      PickupSpawnStep: 4
-      PlatformWidth: 4
-      MinPlatformsCount: 1
-      MaxPlatformsCount: 3
-    PathSettings:
-      StartSpeed: 6
-      MaxSpeed: 6
-      SpeedMultiplier: 0
-      SpeedIncreaseTime: 0
-      MinPlatformDistance: 4
-      MaxPlatformDistance: 4
-      MaxXShift: 4
-  - Level: 6
-    Score: 1000
-    LineSettings:
-      PlatformScore: 1
-      ScoreMultiplier: 3
-      PickupSpawnStep: 3
+      PickupSpawnStep: 7
       PlatformWidth: 4
       MinPlatformsCount: 1
       MaxPlatformsCount: 3
@@ -204,16 +153,33 @@ MonoBehaviour:
       MaxSpeed: 7
       SpeedMultiplier: 0
       SpeedIncreaseTime: 0
-      MinPlatformDistance: 5
-      MaxPlatformDistance: 5
+      MinPlatformDistance: 3
+      MaxPlatformDistance: 3
       MaxXShift: 3
-  - Level: 7
-    Score: 5000
+  - Level: 4
+    Score: 500
     LineSettings:
       PlatformScore: 1
-      ScoreMultiplier: 3
-      PickupSpawnStep: 3
-      PlatformWidth: 4
+      ScoreMultiplier: 2
+      PickupSpawnStep: 6
+      PlatformWidth: 3
+      MinPlatformsCount: 1
+      MaxPlatformsCount: 3
+    PathSettings:
+      StartSpeed: 7
+      MaxSpeed: 7
+      SpeedMultiplier: 0
+      SpeedIncreaseTime: 0
+      MinPlatformDistance: 4
+      MaxPlatformDistance: 4
+      MaxXShift: 4
+  - Level: 5
+    Score: 750
+    LineSettings:
+      PlatformScore: 1
+      ScoreMultiplier: 2
+      PickupSpawnStep: 5
+      PlatformWidth: 3
       MinPlatformsCount: 1
       MaxPlatformsCount: 3
     PathSettings:
@@ -221,33 +187,33 @@ MonoBehaviour:
       MaxSpeed: 8
       SpeedMultiplier: 0
       SpeedIncreaseTime: 0
-      MinPlatformDistance: 5
-      MaxPlatformDistance: 5
-      MaxXShift: 4
-  - Level: 8
-    Score: 10000
+      MinPlatformDistance: 4
+      MaxPlatformDistance: 4
+      MaxXShift: 5
+  - Level: 6
+    Score: 1500
     LineSettings:
       PlatformScore: 1
       ScoreMultiplier: 3
-      PickupSpawnStep: 3
-      PlatformWidth: 4
+      PickupSpawnStep: 4
+      PlatformWidth: 3
       MinPlatformsCount: 1
-      MaxPlatformsCount: 4
+      MaxPlatformsCount: 3
     PathSettings:
-      StartSpeed: 8
-      MaxSpeed: 8
+      StartSpeed: 9
+      MaxSpeed: 9
       SpeedMultiplier: 0
       SpeedIncreaseTime: 0
-      MinPlatformDistance: 5
-      MaxPlatformDistance: 5
-      MaxXShift: 3
-  - Level: 9
-    Score: 20000
+      MinPlatformDistance: 4
+      MaxPlatformDistance: 4
+      MaxXShift: 4
+  - Level: 7
+    Score: 3000
     LineSettings:
       PlatformScore: 1
       ScoreMultiplier: 3
       PickupSpawnStep: 3
-      PlatformWidth: 4
+      PlatformWidth: 3
       MinPlatformsCount: 1
       MaxPlatformsCount: 4
     PathSettings:
@@ -255,16 +221,16 @@ MonoBehaviour:
       MaxSpeed: 9
       SpeedMultiplier: 0
       SpeedIncreaseTime: 0
-      MinPlatformDistance: 6
-      MaxPlatformDistance: 6
-      MaxXShift: 3
-  - Level: 10
-    Score: 50000
+      MinPlatformDistance: 5
+      MaxPlatformDistance: 5
+      MaxXShift: 4
+  - Level: 8
+    Score: 7500
     LineSettings:
       PlatformScore: 1
-      ScoreMultiplier: 4
+      ScoreMultiplier: 3
       PickupSpawnStep: 3
-      PlatformWidth: 4
+      PlatformWidth: 3
       MinPlatformsCount: 1
       MaxPlatformsCount: 4
     PathSettings:
@@ -272,6 +238,40 @@ MonoBehaviour:
       MaxSpeed: 10
       SpeedMultiplier: 0
       SpeedIncreaseTime: 0
-      MinPlatformDistance: 7
-      MaxPlatformDistance: 7
+      MinPlatformDistance: 5
+      MaxPlatformDistance: 5
+      MaxXShift: 3
+  - Level: 9
+    Score: 15000
+    LineSettings:
+      PlatformScore: 1
+      ScoreMultiplier: 3
+      PickupSpawnStep: 3
+      PlatformWidth: 3
+      MinPlatformsCount: 1
+      MaxPlatformsCount: 4
+    PathSettings:
+      StartSpeed: 11
+      MaxSpeed: 11
+      SpeedMultiplier: 0
+      SpeedIncreaseTime: 0
+      MinPlatformDistance: 5
+      MaxPlatformDistance: 5
+      MaxXShift: 3
+  - Level: 10
+    Score: 35000
+    LineSettings:
+      PlatformScore: 1
+      ScoreMultiplier: 4
+      PickupSpawnStep: 3
+      PlatformWidth: 3
+      MinPlatformsCount: 1
+      MaxPlatformsCount: 4
+    PathSettings:
+      StartSpeed: 12
+      MaxSpeed: 12
+      SpeedMultiplier: 0
+      SpeedIncreaseTime: 0
+      MinPlatformDistance: 5
+      MaxPlatformDistance: 5
       MaxXShift: 3

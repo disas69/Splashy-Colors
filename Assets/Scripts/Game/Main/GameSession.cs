@@ -45,14 +45,7 @@ namespace Game.Main
             _ball.Deactivate();
             _path.Deactivate();
 
-            GameData.Data.CurrentScore = Score;
-
-            if (Score > GameData.Data.BestScore)
-            {
-                GameData.Data.Level = Level;
-                GameData.Data.BestScore = Score;
-                GameData.Save();
-            }
+            SaveLevelAndScore();
         }
 
         public void SubtractLive(bool all = false)
@@ -86,6 +79,8 @@ namespace Game.Main
             {
                 Level = level;
                 SignalsManager.Broadcast(_levelSignal.Name, level);
+                SaveLevelAndScore();
+                Score = 0;
             }
             
             SignalsManager.Broadcast(_scoreSignal.Name, Score);
@@ -110,6 +105,18 @@ namespace Game.Main
         public void ApplyMultiplier(int multiplier)
         {
             ScoreMultiplier *= multiplier;
+        }
+
+        private void SaveLevelAndScore()
+        {
+            GameData.Data.CurrentScore = Score;
+
+            if (Score > GameData.Data.BestScore)
+            {
+                GameData.Data.Level = Level;
+                GameData.Data.BestScore = Score;
+                GameData.Save();
+            }
         }
     }
 }

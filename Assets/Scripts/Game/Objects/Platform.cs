@@ -12,6 +12,7 @@ namespace Game.Objects
     {
         private Animator _animator;
 
+        [SerializeField] private Vector3 _basePosition;
         [SerializeField] private MeshRenderer _renderer;
         [SerializeField] private ColorChanger _colorChanger;
         [SerializeField] private Signal _audioSignal;
@@ -46,6 +47,8 @@ namespace Game.Objects
 
         public override void Deactivate()
         {
+            BaseTransform.localPosition = _basePosition;
+            
             var spawnableObjects = GetComponentsInChildren<SpawnableObject>();
 
             for (var i = 0; i < spawnableObjects.Length; i++)

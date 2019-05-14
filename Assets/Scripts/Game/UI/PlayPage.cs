@@ -4,10 +4,12 @@ using Framework.UI.Notifications;
 using Framework.UI.Notifications.Model;
 using Framework.UI.Structure.Base.Model;
 using Framework.UI.Structure.Base.View;
+using Game.Data;
 using Game.Main;
 using Game.Utils;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game.UI
 {
@@ -16,6 +18,7 @@ namespace Game.UI
         [SerializeField] private LivesViewController _livesViewController;
         [SerializeField] private TextMeshProUGUI _level;
         [SerializeField] private TextMeshProUGUI _score;
+        [SerializeField] private Image _progress;
         [SerializeField] private Signal _levelSignal;
         [SerializeField] private Signal _scoreSignal;
         [SerializeField] private Signal _audioSignal;
@@ -27,10 +30,12 @@ namespace Game.UI
 
             _livesViewController.Subscribe();
             _livesViewController.UpdateLives(GameController.Instance.GameSession.Lives);
-            
+
             _level.text = string.Format(LocalizationManager.GetString("Level"), GameController.Instance.GameSession.Level);
             _score.text = GameController.Instance.GameSession.Score.ToString();
 
+            UpdateLevelProgress(GameController.Instance.GameSession.Score);
+            
             SignalsManager.Register(_levelSignal.Name, OnLevelChange);
             SignalsManager.Register(_scoreSignal.Name, OnScoreChanged);
         }
@@ -45,6 +50,16 @@ namespace Game.UI
         private void OnScoreChanged(int score)
         {
             _score.text = score.ToString();
+            UpdateLevelProgress(score);
+        }
+
+        private void UpdateLevelProgress(int score)
+        {
+            var levelSettings = GameConfiguration.GetLevelSettings(GameController.Instance.GameSession.Level);
+            if (levelSettings != null)
+            {
+                _progress.fillAmount = (float) score / levelSettings.Score;
+            }
         }
 
         public override void OnExit()

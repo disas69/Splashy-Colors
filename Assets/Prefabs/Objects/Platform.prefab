@@ -202,6 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b8404c175007054591df43b14060729, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _basePosition: {x: 0, y: -0.5, z: 0}
   _renderer: {fileID: 681518496367357710}
   _colorChanger: {fileID: 4143148698315438590}
   _audioSignal:

@@ -226,7 +226,14 @@ namespace Game.Editor
                 if (GUILayout.Button("Add level"))
                 {
                     RecordObject("Level Settings Change");
-                    GameConfiguration.Instance.Levels.Add(new LevelSettings());
+
+                    var levelSettings = new LevelSettings();
+                    if (GameConfiguration.Instance.Levels.Count > 0)
+                    {
+                        var prevLevelSettings = GameConfiguration.Instance.Levels[GameConfiguration.Instance.Levels.Count - 1];
+                        levelSettings.Copy(prevLevelSettings);
+                    }
+                    GameConfiguration.Instance.Levels.Add(levelSettings);
                 }
 
                 _levelsContentPosition = EditorGUILayout.BeginScrollView(_levelsContentPosition);

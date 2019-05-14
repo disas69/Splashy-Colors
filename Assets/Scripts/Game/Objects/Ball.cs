@@ -29,7 +29,6 @@ namespace Game.Objects
         private bool _dragging;
         private int _pointersCount;
         private Vector2 _lastDragDelta;
-        private Vector2 _currentVelocity;
         private Rigidbody _rigidbody;
         private string _color;
 
@@ -46,7 +45,7 @@ namespace Game.Objects
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
-            _dragSpeedAverage = new VectorAverager(0.5f);
+            _dragSpeedAverage = new VectorAverager(0.1f);
             _screenToWorldScaleFactor = 2f * Camera.main.orthographicSize / Camera.main.pixelHeight;
 
             _inputProvider.PointerDown += OnPointerDown;
@@ -125,20 +124,13 @@ namespace Game.Objects
             }
 
             var newPosition = transform.position;
+            
+            _dragSpeedAverage.AddSample(_dragging ? _lastDragDelta : Vector2.zero);
+            var velocity = _dragSpeedAverage.Value;
 
-            if (_dragging)
+            if (velocity.magnitude > 0.01f)
             {
-                _currentVelocity = _lastDragDelta;
-                _dragSpeedAverage.AddSample(_currentVelocity);
-            }
-            else
-            {
-                _currentVelocity = Vector2.zero;
-            }
-
-            if (_currentVelocity.magnitude > 0.01f)
-            {
-                Vector3 worldSpaceDelta = _currentVelocity * GameConfiguration.Instance.BallSettings.MoveSpeed * _screenToWorldScaleFactor;
+                var worldSpaceDelta = velocity * GameConfiguration.Instance.BallSettings.MoveSpeed * _screenToWorldScaleFactor;
                 newPosition = Vector3.SmoothDamp(transform.position, transform.position + worldSpaceDelta, ref _velocity, GameConfiguration.Instance.BallSettings.SmoothSpeed);
             }
 
